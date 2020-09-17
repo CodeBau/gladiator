@@ -1,0 +1,43 @@
+TYLKO LICZBA
+
+int is_it_number(int max, int min)
+{
+    int its_number = 0;                                          //variable that determines whether string is a number
+    int b;                                                       //temporary variable to save the string as int
+
+    while (its_number != 1)
+    {
+        std::cout << "Dokonaj wyboru: (" << min << " - " << max << ") " << std::endl;
+        std::string number;                                           //string entered by the user
+        std::cin >> number;
+
+        //checking if all characters from the string are numbers / if any character is not interrupted and ask for a new input
+        for (int i = 0; i < number.length(); i++)
+        {
+
+            if (number[i] == '0' || number[i] == '1' || number[i] == '2' || number[i] == '3' || number[i] == '4' || number[i] == '5' || number[i] == '6' || number[i] == '7' || number[i] == '8' || number[i] == '9')
+            {
+
+                b = atoi(number.c_str());
+                {
+                    if (b <= max && b >= min)
+                    {
+                        its_number = 1;
+                    }
+                    else
+                    {
+                        std::cout << "Nie ma takiej opcji" << std::endl;
+                        its_number = 0;
+                    }
+                }
+            }
+            else
+            {
+                std::cout << "Nie ma takiej opcji" << std::endl;
+                its_number = 0;
+                break;
+            }
+        }
+    }
+    return b;
+}
