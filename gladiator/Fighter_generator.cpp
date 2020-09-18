@@ -1,6 +1,7 @@
 #include "Fighter_generator.h"
 #include "uniform_distribution.h"
 #include "globals.h"
+#include "Menu.h"
 
 
 void Fighter_generator::show_stats()
@@ -89,3 +90,4 @@ void Fighter_generator::show_stats()
 
    Fighter_generator::~Fighter_generator()
     {}
+

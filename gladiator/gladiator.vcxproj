@@ -139,18 +139,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Fight.cpp" />
     <ClCompile Include="Fighter_generator.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="gladiator.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Normal_distribution.cpp" />
     <ClCompile Include="uniform_distribution.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="smietnik.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Fight.h" />
     <ClInclude Include="Fighter_generator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="globals.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Normal_distribution.h" />
     <ClInclude Include="uniform_distribution.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
