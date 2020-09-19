@@ -1,17 +1,14 @@
 #pragma once
-#include<string>
-#include<vector>
+#include"Fighter_generator.h"
+#include"Normal_distribution.h"
 
 
 class Fight
 {
 public:
 
-    void aggresion_stage(std::string fighter_1_name, std::vector<int> fighter_1_stats, std::string fighter_2_name, std::vector<int> fighter_2_stat);
-    void efficiency_speed_stage();
-    void strength_endurance_stage();
-    void hole_fight();
-    void show_fight();
+    void fight_stages_view(Fighter_generator& f_gld1, Fighter_generator& f_gld2, Normal_distribution& f_n_d);
+    void fightatack_view(Fighter_generator& f_gld1, Fighter_generator& f_gld2, Normal_distribution& f_n_d);
     void duel();
     void turnament();
     Fight();

@@ -36,6 +36,9 @@
     <ClCompile Include="Normal_distribution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="skill_bar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="smietnik.txt">
@@ -62,6 +65,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Normal_distribution.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="skill_bar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

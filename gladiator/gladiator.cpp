@@ -13,7 +13,8 @@
 #include "uniform_distribution.h"
 #include "globals.h"
 
-int global_fighter_exist = 1;
+
+int global_fighter_exist = 0;
 int global_gladiator_id = 0;
 
 

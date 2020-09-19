@@ -5,7 +5,6 @@
 #include <ctime>
 
 #include "globals.h"
-#include "Menu.h"
 #include "Fighter_generator.h"
 #include "Menu.h"
 #include "Game.h"
@@ -30,7 +29,8 @@
         user_menu_choice = _getch();
     }
 
-    void  Menu::menumain(Fighter_generator& gld1)
+    //menuglowne gry
+    void  Menu::menumain(Fighter_generator& m_gld1)
     {
         system("cls");
         std::cout << "******MENU******" << std::endl << std::endl;
@@ -39,10 +39,10 @@
         switch (user_menu_choice)
         {
         case '1':
-            menu1(gld1);
+            menu1(m_gld1);
             break;
         case '2':
-            menu2(gld1);
+            menu2(m_gld1);
             break;
         case '3':
             exit(0);
@@ -50,43 +50,81 @@
         default:
             std::cout << "Nie ma takiej opcji";
             Sleep(500);
-            menumain(gld1);
+            menumain(m_gld1);
         }
     }
-
-    void  Menu::menu1(Fighter_generator& gld1)
+    //Menu gladiatora
+    void  Menu::menu1(Fighter_generator& m_gld1)
     {
         system("cls");
         std::cout << "******MENU - Gladiator******" << std::endl << std::endl;
 
         if (global_fighter_exist == 1)
         {
-            gld1.show_stats();
+            m_gld1.show_stats();
         }
 
         else
         {
             std::cout << "Nie posiadasz gladiatora";
         }
-        std::cout << std::endl;
+        
         std::cout << std::endl;
         show_menu_option(menu1_opt);
         choice_menu_option(menu1_opt);
         switch (user_menu_choice)
         {
         case '1':
-            menu1(gld1);
+        {
+            if (global_fighter_exist == 1)
+            {
+             menu11(m_gld1);
+            }
+            else
+            {
+             global_fighter_exist = 1;
+             m_gld1.generate_stats();
+             menu1(m_gld1);
+            }
             break;
+        }
         case '2':
-            menumain(gld1);
+            menumain(m_gld1);
             break;
         default:
             std::cout << "Nie ma takiej opcji";
             Sleep(500);
-            menu1(gld1);
+            menu1(m_gld1);
         }
     }
-    void  Menu::menu2(Fighter_generator& gld1)
+
+    //Pytanie czy zwerbowac nowego gdy istnieje
+    void  Menu::menu11(Fighter_generator& m_gld1)
+    {
+        system("cls");
+        std::cout << "******MENU - Werbowac nowego******" << std::endl << std::endl;
+        m_gld1.show_stats();
+        std::cout << "Posiadasz juz Gladiatora, czy zastapic istniejacego" << std::endl << std::endl;
+        show_menu_option(menu11_opt);
+        choice_menu_option(menu11_opt);
+        switch (user_menu_choice)
+        {
+        case '1':
+            m_gld1.generate_stats();
+            menu1(m_gld1);
+            break;
+        case '2':
+            menu1(m_gld1);
+            break;
+        default:
+            std::cout << "Nie ma takiej opcji";
+            Sleep(500);
+            menu2(m_gld1);
+        }
+    }
+
+    //Menu walk
+    void  Menu::menu2(Fighter_generator& m_gld1)
     {
         system("cls");
         std::cout << "******MENU - Walka******" << std::endl << std::endl;
@@ -95,20 +133,25 @@
         switch (user_menu_choice)
         {
         case '1':
-            menu2(gld1);
+            menu2(m_gld1);
             break;
         case '2':
-            menu2(gld1);
+            menu2(m_gld1);
             break;
         case '3':
-            menu2(gld1);
+            menu2(m_gld1);
             break;
         case '4':
-            menumain(gld1);
+            menumain(m_gld1);
             break;
         default:
             std::cout << "Nie ma takiej opcji";
             Sleep(500);
-            menu2(gld1);;
+            menu2(m_gld1);
         }
     }
+
+   
+        
+       
+    
