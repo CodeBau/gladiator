@@ -4,6 +4,8 @@
 #include <windows.h>
 #include <ctime>
 #include <random>                                                //for normal distribution
+#include <string>
+
 
 #include "Game.h"
 #include "Menu.h"
@@ -12,19 +14,26 @@
 #include "Normal_distribution.h"
 #include "uniform_distribution.h"
 #include "globals.h"
+#include "skill_bar.h"
 
 
 int global_fighter_exist = 0;
 int global_gladiator_id = 0;
-
-
+int global_fighters_space = 20;
+int global_bar_lnt = 20;
+std::string global_fighter_skills[] = { "Id:            ", "Punkty zycia:  ", "Wytrzymalosc:  ", "Odpornosc:     ","Sprawnosc:     ","Szybkosc:      ","Sila:          ","Agresja:       ", "Doswiadczenie: " };
+std::string global_former_comment;
 
 int main()
 {
     srand((unsigned int)time(NULL));
 
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 7);
+
     Game migame;
     migame.initiation();
+    //migame.loop();
 
 
     //Fighter_generator gld1;

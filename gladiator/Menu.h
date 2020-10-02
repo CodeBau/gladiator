@@ -1,5 +1,6 @@
 #pragma once
 #include"Fighter_generator.h"
+#include"Normal_distribution.h"
 
 
 class Menu {
@@ -12,8 +13,8 @@ public:
 
     void show_menu_option(std::vector<std::string> menu_opt);
     void choice_menu_option(std::vector<std::string> menu_opt);
-    void menumain(Fighter_generator& m_gld1);
-    void menu1(Fighter_generator& m_gld1);
-    void menu11(Fighter_generator& m_gld1);
-    void menu2(Fighter_generator& m_gld1);
+    void menumain(Fighter_generator& m_gld1, Fighter_generator& m_gld2, Normal_distribution& f_n_d);
+    void menu1(Fighter_generator& m_gld1, Fighter_generator& m_gld2, Normal_distribution& f_n_d);
+    void menu11(Fighter_generator& m_gld1, Fighter_generator& m_gld2, Normal_distribution& f_n_d);
+    void menu2(Fighter_generator& m_gld1, Fighter_generator& m_gld2, Normal_distribution& f_n_d);
 };

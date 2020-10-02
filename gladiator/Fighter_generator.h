@@ -14,27 +14,9 @@ public:
     Fighter_generator();
     ~Fighter_generator();
     std::string name;
-    std::vector <int> gladiator;
+    int skills[3][9];
     int id_count;
     void show_stats();
     void show_stats_all();
     void generate_stats();
-private:
-    //zakresy losowan wartosci umiejetnosci przy generowaniu gladiatora
-    int min_hp;
-    int max_hp;
-    int min_en;
-    int max_en;
-    int min_ef;
-    int max_ef;
-    int min_sp;
-    int max_sp;
-    int min_st;
-    int max_st;
-    int min_ag;
-    int max_ag;
-    //doswiadczenie jest zdobywane wraz z walkami, sa to orientacyjne wartosci
-    //aby zastapic liczbe slowem
-    int min_ex;
-    int max_ex;
 };

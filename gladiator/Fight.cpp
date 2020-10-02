@@ -2,81 +2,163 @@
 #include "Fight.h"
 #include "Fighter_generator.h"
 #include "Normal_distribution.h"
+#include "skill_bar.h"
+#include "fight_commentary.h"
+#include "linear_function.h"
+#include "Menu.h"
+#include "Game.h"
+
+#include<windows.h>
+#include<ctime>
+#include<iomanip>
+#include<iostream>
 
 
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-sprawnosc, 4-szybkosc, 5- sila, 6-agresja, 7-doswiadczenie 
     void Fight::fight_stages_view (Fighter_generator& f_gld1, Fighter_generator& f_gld2, Normal_distribution& f_n_d)
     {   
-        f_gld1.show_stats();
-        f_gld2.show_stats();
-
-        while ((f_gld1.gladiator[1]>0) & (f_gld2.gladiator[1] > 0))
+        global_former_comment = "";
+        while ((f_gld1.skills[0][1]>0) & (f_gld2.skills[0][1] > 0))
         { 
-            int x6 = f_gld1.gladiator[6];
-            //std::cout <<"Agresja "<< f_gld1.name<<" : "<<x6<< std::endl;
-            int y6 = f_gld2.gladiator[6];
-            //std::cout << "Agresja " << f_gld2.name << " : " << y6 << std::endl;
-            float los = f_n_d.normal_distribution_values_use(x6, y6);
-            std::cout << "Wylosowana: " << los << std::endl;
+            system("cls");
+            fight_show_stats(f_gld1, f_gld2);
+            int x7 = f_gld1.skills[0][7];
+            //std::cout <<"Agresja "<< f_gld1.name<<" : "<<x7<< std::endl;
+            int y7 = f_gld2.skills[0][7];
+            //std::cout << "Agresja " << f_gld2.name << " : " << y7 << std::endl;
+            float los = f_n_d.normal_distribution_values_use(x7, y7);
+            //std::cout << "Wylosowana: " << los << std::endl;
         
-            if (los< x6)
+            if (los < x7)
             {
-                fightatack_view(f_gld1, f_gld2,f_n_d);
+                fight_stage_atack_view(f_gld1, f_gld2,f_n_d);
             }
 
             else
             { 
-                fightatack_view(f_gld2, f_gld1,f_n_d);
+                fight_stage_atack_view(f_gld2, f_gld1,f_n_d);
             }
         }
+        system("cls");
+        fight_show_stats(f_gld1, f_gld2);
+
+        //ustawienie koloru tekstu konsoli na ciemno szary
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(hConsole, 8);
+        std::cout << global_former_comment << std::endl;
+        //powrot koloru do jasno szarego
+        SetConsoleTextAttribute(hConsole, 7);
+
+        if (f_gld1.skills[0][1] <= 0)
+        {
+            std::cout << f_gld1.name << " umiera." << std::endl;
+            f_gld1.skills[0][0] = 0;
+            f_gld2.skills[0][8]++;
+        }
+        if (f_gld2.skills[0][1] <= 0)
+        {
+            std::cout << f_gld2.name << " umiera." << std::endl;
+            f_gld2.skills[0][0] = 0;
+            f_gld1.skills[0][8]++;
+        }
+
         
     }
 
-    void Fight::fightatack_view(Fighter_generator& f_gld1, Fighter_generator& f_gld2, Normal_distribution& f_n_d)
+    void Fight::fight_stage_atack_view(Fighter_generator& f_gld1, Fighter_generator& f_gld2, Normal_distribution& f_n_d)
     {
-        //naddatek do szybkosc
-        int nad = 20;
-        int uderzenie;
-        int minus_hp;
+        int min_prct_hit = 50;      //minimalna wartosc uderzenia w % - dekalroawana tutaj
+        int max_prct_hit = 100;     //maksymalna wartosc uderzenia w % - dekalroawana tutaj
 
-        //std::cout << "Atakuje " << f_gld1.name << std::endl;
-        int x4 = f_gld1.gladiator[4];
-        //std::cout << "Szybkosc " << f_gld1.name << x4 << std::endl;
-        //std::cout << "Szybkosc " << f_gld1.name << " powiekszona o + naddatek: " << x4 + nad << std::endl;
-        int y3 = f_gld2.gladiator[3];
-       //std::cout << "Sprawnosc " << f_gld2.name << " : " << y3 << std::endl;
-        float los = f_n_d.normal_distribution_values_use(x4 + nad, y3);
-        //std::cout << "Wylosowana: " << los << std::endl;
-        float procent = los * 100 / (x4 + nad + y3);
-        //std::cout << "W procentach: " << procent << std::endl;
+        int x5;                     //szybkosc 1 zawodnika
+        int y4;                     //sprawnosc 2 zawodnika
+        float spd_eff;              //stosunek szybkosci/sprawnosci
+        float min_spd_eff;          //min stosunek szybkosci do sprawnosci mozliwy do uzyskania
+        float max_spd_eff;          //max stosunek szybkosci do sprawnosci mozliwy do uzyskania
+        float prct_hit;             //wartosc makymalnego % ataku mozliwa do uzyskania
+        float los;                  //zmienna pprzetrzymujaca losowane wartosci
+        float hit;                  //wartosc uddrzenia
+        float max_hit;              //maksymalna wartosc uddrzenia
+        float damage;               //wartosc obrazen
+        float max_damage;           //wartosc obrazen
+       
 
-        int x5 = f_gld1.gladiator[5];
-        //std::cout << "Sila " << f_gld1.name << " : " << x5 << std::endl;
-        uderzenie = x5 * procent / 100;
-        //std::cout << "Uderzenie: " << uderzenie << std::endl;
-        int y2 = f_gld2.gladiator[2];
-        //std::cout << "Wytrzymalosc " << f_gld2.name << " : " << y2 << std::endl;
-        minus_hp = uderzenie*1.0/y2*15;
-        std::cout << "-HP: " << minus_hp<< std::endl;
-        int y1 = f_gld2.gladiator[1];
-        //std::cout << "Zdrowie " << f_gld2.name << " : " << y1 << std::endl;
-        f_gld2.gladiator[1] = f_gld2.gladiator[1] - minus_hp;
-        y1 = f_gld2.gladiator[1];
-        std::cout << "Zdrowie " << f_gld2.name << " postrzale : " << y1 << std::endl;
-
-        std::cout <<"[ ][ ][ ][ ][ ]"<< std::endl;
-        std::cout <<"[+][+][+][ ][ ]"<< std::endl;
-        std::cout <<"[++++______]"<< std::endl;
-        std::cout <<"[|||||||||||||||||||||]"<< std::endl;
-        std::cout <<"[||||||||||           ]"<< std::endl;
-
+        //szybkosc pierwszego zawodnika
+        x5 = f_gld1.skills[0][5];
+        //sprawnosc 2 zawodnika
+        y4 = f_gld2.skills[0][4];
+        //stosunek szybkosci pierwszego zawodnika do sprawnosci drugigo zawodnika
+        spd_eff = (x5*1.0 / y4);
+        //stosunek maximum szybkosci mozliwe do uzyskania oraz minimum sprawnosci mozliwe do uzyskania (skrajny przypadek max ataku)
+        max_spd_eff = f_gld1.skills[2][5] * 1.0 / f_gld2.skills[1][4];
+        //stosunek minimum szybkosci mozliwe do uzyskania oraz maximum sprawnosci mozliwe do uzyskania (skrajny przypadek min ataku)
+        min_spd_eff = f_gld1.skills[1][5] * 1.0 / f_gld2.skills[2][4];
+        //graniczna gorna wartosc ataku w [%] do uzyskania. Uzywamy wykresu liniowego z 2 pkt (max_prct_hit=max_spd_eff*a+b oraz min_prct_hit=min_spd_eff*a+b z spd_eff wyznaczamy prct_hit)
+        prct_hit = linear_function(max_prct_hit, max_spd_eff, min_prct_hit, min_spd_eff, spd_eff); 
+        //losujmy rzeczywista wartosc uderzenia 
+        los = uniform_distribution(0, prct_hit);
+        //sila 1 zawodnika
+        int x6 = f_gld1.skills[0][6];
+        //wartosc uderzenia = sila zawodnika pomnozona przez % ataku
+        hit = x6 * los / 100;
+        //maksymalna wartosc uderzenia = sila zawodnika pomnozona przez maksymalny % ataku
+        max_hit = x6 * prct_hit / 100;
+        //odpornosc zawodnika 2
+        int y3 = f_gld2.skills[0][3];
+        //obrazenia uderzeie/wtrzymalos powiekszona o 15
+        damage = hit*1.0/y3*15;
+        //maksymalne mozliwe obrazenia uderzenie/wtrzymalos powiekszona o 15
+        max_damage = max_hit*1.0/y3*15;
+        int y1 = f_gld2.skills[0][1];
+        //std::cout << "Punkty zycia " << f_gld2.name << " : " << y1 << std::endl;
+        f_gld2.skills[0][1] = f_gld2.skills[0][1] - damage;
+        y1 = f_gld2.skills[0][1];
+        //std::cout << "Zdrowie " << f_gld2.name << " po strzale : " << y1 << std::endl;
+        fight_commentary(f_gld1, f_gld2, damage, max_damage);
     }
      
-
-
-    void Fight::duel()
-
+    void Fight::fight_show_stats(Fighter_generator& f_gld1, Fighter_generator& f_gld2)
     {
+        //"Name: " to 5 znakow
+        int first_name_lnt = 5+f_gld1.name.size();
+
+        //"Doswiadczenie: " + "[" + "]" = 17 znakow. + bar_lnt = 37 znakow
+        int max_skill_lnt = 17 + global_bar_lnt;
+
+        //sprawdzamy czy wiecej znakow (dluzszy) jest imie gladiatora, czy nazwa umiejetnosci + skill_bar
+        if (first_name_lnt >= max_skill_lnt)
+        {
+            std::cout << "Name: " << f_gld1.name << std::string(global_fighters_space, ' ') << "Name: " << f_gld2.name << std::endl;
+            for (int i = 1; i < (sizeof f_gld1.skills[0] / sizeof(int)); i++)
+            {
+                std::cout << global_fighter_skills[i];
+                skill_bar(f_gld1.skills[1][i], f_gld1.skills[2][i], f_gld1.skills[0][i]);
+                std::cout << std::string((first_name_lnt- max_skill_lnt+ global_fighters_space+1), ' ');
+                std::cout << global_fighter_skills[i];
+                skill_bar(f_gld2.skills[1][i], f_gld2.skills[2][i], f_gld2.skills[0][i]);
+                std::cout << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Name: " << f_gld1.name << std::string(global_fighters_space+max_skill_lnt-first_name_lnt-1, ' ') << "Name: " << f_gld2.name << std::endl;
+            for (int i = 1; i < (sizeof f_gld1.skills[0] / sizeof(int)); i++)
+            {
+                std::cout << global_fighter_skills[i];
+                skill_bar(f_gld1.skills[1][i], f_gld1.skills[2][i], f_gld1.skills[0][i]);
+                std::cout << std::string(global_fighters_space , ' ');
+                std::cout << global_fighter_skills[i];
+                skill_bar(f_gld2.skills[1][i], f_gld2.skills[2][i], f_gld2.skills[0][i]);
+                std::cout << std::endl;
+            }
+        }
+    }
+
+    void Fight::duel(Fighter_generator& f_gld1, Fighter_generator& f_gld2, Normal_distribution& f_n_d)
+    {
+        f_gld2.generate_stats();
+        fight_stages_view(f_gld1, f_gld2, f_n_d);
+
 
     }
 

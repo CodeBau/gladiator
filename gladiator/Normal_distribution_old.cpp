@@ -29,9 +29,10 @@ float Normal_distribution::normal_distribution_values_use(int value1, int value2
     //zakres jest suma value1 i value2 bo one beda staly po przeciwnej stronie osi 50 | 70 (120)
     int values_range = (value1 + value2);
     
-
-
     //losujemy rozkladem jednostajnym (splaszczamy losowanie do wybrania liczby z vectora z liczbami rozkladu normalnego)
+    
+    //jakis wspolczynnik zmiejszajacy zakres wylosowanych liczb
+    
     int n_d_random = n_d[uniform_distribution(0, n_d.size() - 1)];
     int y = repeat.size();
 

@@ -33,10 +33,16 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Normal_distribution.cpp">
+    <ClCompile Include="skill_bar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="skill_bar.cpp">
+    <ClCompile Include="fight_commentary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="linear_function.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Normal_distribution_old.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -64,10 +70,16 @@
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Normal_distribution.h">
+    <ClInclude Include="skill_bar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="skill_bar.h">
+    <ClInclude Include="fight_commentary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linear_function.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Normal_distribution_old.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
