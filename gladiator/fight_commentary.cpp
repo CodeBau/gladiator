@@ -1,5 +1,5 @@
 #include"fight_commentary.h"
-#include"Fighter_generator.h"
+#include"Fighter.h"
 #include"uniform_distribution.h"
 #include"globals.h"
 
@@ -12,7 +12,7 @@
 #include<iostream>
 #include<sstream>
 
-void fight_commentary(Fighter_generator& f_gld1, Fighter_generator& f_gld2, float f_hit, float f_max_hit)
+void fight_commentary(Fighter& f_gld1, Fighter& f_gld2, float f_hit, float f_max_hit)
 {
 	std::string att_option[]={"szykuje sie do ataku", "atakuje", "rusza z atakiem", "naciera", "robi zamach" };
 	std::string att_form[]={"Zadaje", "Uderza","Kopie", "Wali" };

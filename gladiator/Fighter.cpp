@@ -1,10 +1,12 @@
-#include "Fighter_generator.h"
+#include <string>
+
+#include "Fighter.h"
 #include "uniform_distribution.h"
 #include "globals.h"
 #include "skill_bar.h"
 
 
-void Fighter_generator::show_stats()
+void Fighter::show_stats()
     {
         std::cout << "Name: " << name << std::endl;
         for (int i = 2; i < (sizeof skills[0] / sizeof(int)); i++)
@@ -15,7 +17,7 @@ void Fighter_generator::show_stats()
         }
         std::cout << std::endl;
     }
-void Fighter_generator::show_stats_all()
+void Fighter::show_stats_all()
     {
         std::cout << "Name: " << name << std::endl;
         for (int i = 0; i < (sizeof skills[0] / sizeof(int)); i++)
@@ -26,11 +28,13 @@ void Fighter_generator::show_stats_all()
         std::cout << std::endl;
     }
 
-   void Fighter_generator::generate_stats()
+   void Fighter::generate_stats()
     {
         global_gladiator_id++;
 
-        name = names[uniform_distribution(0, names.size())]+ pseudos[uniform_distribution(0, pseudos.size())] + surnames[uniform_distribution(0, surnames.size())];
+
+        name = global_names[uniform_distribution(0, global_names.size())]+ global_pseudos[uniform_distribution(0, global_pseudos.size())] + global_surnames[uniform_distribution(0, global_surnames.size())];
+
         //name = "miliardowa dlugosc tekstu zeby bylo";
         //gladiator generate id (global+1)
         skills[0][0] = global_gladiator_id;
@@ -77,7 +81,7 @@ void Fighter_generator::show_stats_all()
 
     }
 
-   Fighter_generator::Fighter_generator()
+   Fighter::Fighter()
     {
         //gladiator constr name
         name = "Brak";
@@ -102,6 +106,6 @@ void Fighter_generator::show_stats_all()
 
     }
 
-   Fighter_generator::~Fighter_generator()
+   Fighter::~Fighter()
     {}
 

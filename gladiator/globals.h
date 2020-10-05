@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 //to sa tylko h od zmiennych globalnych. 
 //Deinicje w gladiators.cpp
@@ -16,8 +17,17 @@ extern int global_bar_lnt;
 //Rozsuniecie pomiedzy wyswietleniem zawodnikow. 
 extern int global_fighters_space;
 
-//Tabela z nazwami umiejetnosci
+//tablica z nazwami umiejetnosci
 extern std::string global_fighter_skills[];
 
 //komentarz w walce z poprzdniej rundy
 extern std::string global_former_comment;
+
+//vector z wszystkimi mozliwymi imionami gladiatora
+extern std::vector <std::string> global_names;
+
+//vector z wszystkimi mozliwymi pseudonimami gladiatora
+extern std::vector <std::string> global_pseudos;
+
+//vector z wszystkimi mozliwymi nazwiskami gladiatora
+extern std::vector <std::string> global_surnames;
