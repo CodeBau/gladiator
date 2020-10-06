@@ -21,6 +21,9 @@ void Game::initiation()
         for (int i = 0; i < 8; i++)
             glds.push_back(Fighter());
         
+        //oznaczenie gladiatora gracza
+        glds[0].skills[0][1] = 1;
+
         //Fight fght;
         Menu gamemenu;
         while (1==1)

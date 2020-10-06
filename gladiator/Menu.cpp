@@ -20,20 +20,22 @@
 
     void Menu::fighter_bar(Fighter& m_gld1)
     {
+        int line_lenght = 100;
         if (m_gld1.skills[0][0] == 0)
         {
-            std::cout << "-------------------------------------------------------------------------------" << std::endl;
+            std::cout << std::string(line_lenght,'-') << std::endl;
             std::cout << "Nie posiadasz gladiatora, mozesz go zwerbowac w zakladce gladiator" << std::endl;
-            std::cout << "-------------------------------------------------------------------------------" << std::endl;
+            std::cout << std::string(line_lenght, '-') << std::endl;
 
         }
         else
         {
-            std::cout << "-------------------------------------------------------------------------------" << std::endl;
-            std::cout << "Name: " << m_gld1.name << global_fighter_skills[8]; 
+            std::cout << std::string(line_lenght, '-') << std::endl;
+            std::cout << "Name: " << m_gld1.name << "           " << global_fighter_skills[8];
             skill_bar(m_gld1.skills[1][8], m_gld1.skills[2][8], m_gld1.skills[0][8]);
             std::cout <<  std::endl;
-            std::cout << "-------------------------------------------------------------------------------" << std::endl;
+            std::cout << std::string(line_lenght, '-') << std::endl;
+
         }
     }
 
@@ -60,11 +62,10 @@
     void  Menu::menu0(std::vector <Fighter> &m_glds)
     {
         system("cls");
-        std::cout << "******MENU******" << std::endl << std::endl;
-        std::cout << "dupa" << std::endl;
+        std::cout << "******MENU******"<< std::endl;
         fighter_bar(m_glds[0]);
-        show_menu_option(menumain_opt);
-        choice_menu_option(menumain_opt);
+        show_menu_option(menu0_opt);
+        choice_menu_option(menu0_opt);
         switch (user_menu_choice)
         {
         case '1':
@@ -87,7 +88,6 @@
     {
         system("cls");
         std::cout << "******MENU - Gladiator******" << std::endl << std::endl;
-        std::cout << "dupa" << std::endl << std::endl;
 
         if (m_glds[0].skills[0][0] != 0)
         {
@@ -113,6 +113,8 @@
             else
             {
              m_glds[0].generate_stats();
+             //oznaczenie gladiatora gracza
+             m_glds[0].skills[0][0] = 1;
              menu1(m_glds);
             }
             break;
@@ -127,7 +129,7 @@
         }
     }
 
-    //Pytanie czy zwerbowac nowego gdy istnieje
+    //Pytanie czy zwerbowac nowego gdy posiadasz juz jednego
     void  Menu::menu11(std::vector <Fighter> &m_glds)
     {
         system("cls");
@@ -140,6 +142,8 @@
         {
         case '1':
             m_glds[0].generate_stats();
+            //oznaczenie gladiatora gracza
+            m_glds[0].skills[0][0] = 1;
             menu1(m_glds);
             break;
         case '2':
@@ -152,11 +156,12 @@
         }
     }
 
-    //Menu walk
+    //Menu Arena
     void  Menu::menu2(std::vector <Fighter> &m_glds)
     {
         system("cls");
-        std::cout << "******MENU - Walka******" << std::endl << std::endl;
+        std::cout << "******MENU - Walka******" << std::endl;
+        fighter_bar(m_glds[0]);
         show_menu_option(menu2_opt);
         choice_menu_option(menu2_opt);
         switch (user_menu_choice)

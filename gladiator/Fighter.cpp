@@ -35,9 +35,11 @@ void Fighter::show_stats_all()
 
         name = global_names[uniform_distribution(0, global_names.size())]+ global_pseudos[uniform_distribution(0, global_pseudos.size())] + global_surnames[uniform_distribution(0, global_surnames.size())];
 
-        //name = "miliardowa dlugosc tekstu zeby bylo";
         //gladiator generate id (global+1)
         skills[0][0] = global_gladiator_id;
+
+        //znacznik gladiatora gracza
+        skills[0][1] = 0;
 
         //wytrzymalosc/endurance wartosc min i max mozliwa do wylosowania.
         skills[1][2] = 50;
@@ -76,7 +78,7 @@ void Fighter::show_stats_all()
 
         //doswiadczenie/experience wartosc wartosc min i max do skill_bar.
         skills[1][8] = 0;
-        skills[2][8] = 10;
+        skills[2][8] = 20;
         skills[0][8] = 0;
 
     }

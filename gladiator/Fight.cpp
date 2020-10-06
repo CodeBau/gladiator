@@ -17,7 +17,7 @@ Fight::Fight() {}
 Fight::~Fight() {}
 
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-sprawnosc, 4-szybkosc, 5- sila, 6-agresja, 7-doswiadczenie 
-void Fight::fight_stages_view(Fighter& f_gld1, Fighter& f_gld2)
+void Fight::fight_stage_aggression_view(Fighter& f_gld1, Fighter& f_gld2)
 {
     global_former_comment = "";
     while ((f_gld1.skills[0][1] > 0) & (f_gld2.skills[0][1] > 0))
@@ -51,16 +51,19 @@ void Fight::fight_stages_view(Fighter& f_gld1, Fighter& f_gld2)
     //powrot koloru do jasno szarego
     SetConsoleTextAttribute(hConsole, 7);
 
+    //sprawdzamy kto wygral
     if (f_gld1.skills[0][1] <= 0)
     {
         std::cout << f_gld1.name << " umiera." << std::endl;
         f_gld1.skills[0][0] = 0;
+        f_gld2.skills[0][1]= f_gld2.skills[2][1];
         f_gld2.skills[0][8]++;
     }
     if (f_gld2.skills[0][1] <= 0)
     {
         std::cout << f_gld2.name << " umiera." << std::endl;
         f_gld2.skills[0][0] = 0;
+        f_gld1.skills[0][1] = f_gld1.skills[2][1];
         f_gld1.skills[0][8]++;
     }
 }
@@ -160,7 +163,7 @@ void Fight::duel(Fighter& f_gld1, Fighter& f_gld2)
     {
         f_gld2.generate_stats();
     }
-    fight_stages_view(f_gld1, f_gld2);
+    fight_stage_aggression_view(f_gld1, f_gld2);
 }
 
 void Fight::turnament()
