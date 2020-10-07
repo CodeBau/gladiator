@@ -16,8 +16,20 @@ Fight::Fight() {}
 
 Fight::~Fight() {}
 
+
+void Fight::fight_start_stage_view(std::vector <Fighter>& m_glds)
+{
+    
+    
+    if (f_gld2.skills[0][0] == 0)
+    {
+        f_gld2.generate_stats();
+    }
+}
+
+
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-sprawnosc, 4-szybkosc, 5- sila, 6-agresja, 7-doswiadczenie 
-void Fight::fight_stage_aggression_view(Fighter& f_gld1, Fighter& f_gld2)
+void Fight::fight_aggression_stage_view(Fighter& f_gld1, Fighter& f_gld2)
 {
     global_former_comment = "";
     while ((f_gld1.skills[0][1] > 0) & (f_gld2.skills[0][1] > 0))
@@ -33,12 +45,12 @@ void Fight::fight_stage_aggression_view(Fighter& f_gld1, Fighter& f_gld2)
 
         if (los < x7)
         {
-            fight_stage_atack_view(f_gld1, f_gld2);
+            fight_atack_stage_view(f_gld1, f_gld2);
         }
 
         else
         {
-            fight_stage_atack_view(f_gld2, f_gld1);
+            fight_atack_stage_view(f_gld2, f_gld1);
         }
     }
     system("cls");
@@ -68,7 +80,7 @@ void Fight::fight_stage_aggression_view(Fighter& f_gld1, Fighter& f_gld2)
     }
 }
 
-void Fight::fight_stage_atack_view(Fighter& f_gld1, Fighter& f_gld2)
+void Fight::fight_atack_stage_view(Fighter& f_gld1, Fighter& f_gld2)
 {
     int min_prct_hit = 50;      //minimalna wartosc uderzenia w % - dekalroawana tutaj
     int max_prct_hit = 100;     //maksymalna wartosc uderzenia w % - dekalroawana tutaj
@@ -163,7 +175,7 @@ void Fight::duel(Fighter& f_gld1, Fighter& f_gld2)
     {
         f_gld2.generate_stats();
     }
-    fight_stage_aggression_view(f_gld1, f_gld2);
+    fight_aggression_stage_view(f_gld1, f_gld2);
 }
 
 void Fight::turnament()

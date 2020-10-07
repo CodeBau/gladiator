@@ -6,7 +6,6 @@
 #include <random>                                                //for normal distribution
 #include <string>
 
-
 #include "Game.h"
 #include "Menu.h"
 #include "Fighter.h"
@@ -15,9 +14,7 @@
 #include "globals.h"
 #include "skill_bar.h"
 
-
-int global_fighter_exist = 0;
-int global_gladiator_id = 0;
+int global_fighter_id = 0;
 int global_fighters_space = 20;
 int global_bar_lnt = 20;
 std::string global_fighter_skills[] = { "Id:            ", "Punkty zycia:  ", "Wytrzymalosc:  ", "Odpornosc:     ","Sprawnosc:     ","Szybkosc:      ","Sila:          ","Agresja:       ", "Doswiadczenie: " };

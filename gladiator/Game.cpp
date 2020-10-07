@@ -17,8 +17,12 @@ Game::~Game(){
 void Game::initiation()
     {
         //tworzenie vectora z Fighterami
+       
+
         std::vector<Fighter> glds;
-        for (int i = 0; i < 8; i++)
+        //pierwsze 0 zeby indeks odpowiadal liczbie
+        glds.push_back(0);
+        for (int i = 1; i < 9; i++)
             glds.push_back(Fighter());
         
         //oznaczenie gladiatora gracza

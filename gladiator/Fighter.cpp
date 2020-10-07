@@ -30,13 +30,13 @@ void Fighter::show_stats_all()
 
    void Fighter::generate_stats()
     {
-        global_gladiator_id++;
+        global_fighter_id++;
 
 
         name = global_names[uniform_distribution(0, global_names.size())]+ global_pseudos[uniform_distribution(0, global_pseudos.size())] + global_surnames[uniform_distribution(0, global_surnames.size())];
 
         //gladiator generate id (global+1)
-        skills[0][0] = global_gladiator_id;
+        skills[0][0] = global_fighter_id;
 
         //znacznik gladiatora gracza
         skills[0][1] = 0;

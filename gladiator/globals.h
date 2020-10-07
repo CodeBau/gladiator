@@ -5,11 +5,14 @@
 //to sa tylko h od zmiennych globalnych. 
 //Deinicje w gladiators.cpp
 
-//globalna zmienna potwierdzajaca istnienie gladiatora gracza.
-extern int global_fighter_exist;
+//pierwszy zawodnik do walki
+extern int global_1_fighter_to_fight;
+
+//drugi zawodnik do walki
+extern int global_2_fighter_to_fight;
 
 //globalna zmienna nadajaca kolejny numer kazdemu stworzonemu gladiatorowi.
-extern int global_gladiator_id;
+extern int global_fighter_id;
 
 //dlugosc skill_bar paska umiejetnosci.
 extern int global_bar_lnt;

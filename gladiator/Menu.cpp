@@ -160,7 +160,7 @@
     void  Menu::menu2(std::vector <Fighter> &m_glds)
     {
         system("cls");
-        std::cout << "******MENU - Walka******" << std::endl;
+        std::cout << "******Arena******" << std::endl;
         fighter_bar(m_glds[0]);
         show_menu_option(menu2_opt);
         choice_menu_option(menu2_opt);
@@ -170,7 +170,7 @@
             menu2(m_glds);
             break;
         case '2':
-            fght.duel(m_glds[0], m_glds[1]);
+            menu22(m_glds);
             break;
         case '3':
             menu2(m_glds);
@@ -185,6 +185,31 @@
         }
     }
 
+    //Menu pojedynku
+    void  Menu::menu22(std::vector <Fighter>& m_glds)
+    {
+        system("cls");
+        std::cout << "******Pojedynek******" << std::endl;
+        //fght.fight_show_stats(m_glds[0], m_glds[1]);
+        show_menu_option(menu22_opt);
+        choice_menu_option(menu22_opt);
+        switch (user_menu_choice)
+        {
+        case '1':
+            fght.duel(m_glds[0], m_glds[1]);
+            break;
+        case '2':
+            fght.duel(m_glds[0], m_glds[1]);
+            break;
+        case '3':
+            menu2(m_glds);
+            break;
+        default:
+            std::cout << "Nie ma takiej opcji";
+            Sleep(500);
+            menu22(m_glds);
+        }
+    }
    
         
        
