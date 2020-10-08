@@ -133,10 +133,10 @@ void Dupa::fight_show_stats(Fighter& f_gld1, Fighter& f_gld2)
         std::cout << "Name: " << f_gld1.name << std::string(global_fighters_space, ' ') << "Name: " << f_gld2.name << std::endl;
         for (int i = 1; i < (sizeof f_gld1.skills[0] / sizeof(int)); i++)
         {
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             skill_bar(f_gld1.skills[1][i], f_gld1.skills[2][i], f_gld1.skills[0][i]);
             std::cout << std::string((first_name_lnt - max_skill_lnt + global_fighters_space + 1), ' ');
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             skill_bar(f_gld2.skills[1][i], f_gld2.skills[2][i], f_gld2.skills[0][i]);
             std::cout << std::endl;
         }
@@ -146,10 +146,10 @@ void Dupa::fight_show_stats(Fighter& f_gld1, Fighter& f_gld2)
         std::cout << "Name: " << f_gld1.name << std::string(global_fighters_space + max_skill_lnt - first_name_lnt - 1, ' ') << "Name: " << f_gld2.name << std::endl;
         for (int i = 1; i < (sizeof f_gld1.skills[0] / sizeof(int)); i++)
         {
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             skill_bar(f_gld1.skills[1][i], f_gld1.skills[2][i], f_gld1.skills[0][i]);
             std::cout << std::string(global_fighters_space, ' ');
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             skill_bar(f_gld2.skills[1][i], f_gld2.skills[2][i], f_gld2.skills[0][i]);
             std::cout << std::endl;
         }

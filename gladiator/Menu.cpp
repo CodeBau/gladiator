@@ -30,10 +30,16 @@
         }
         else
         {
+            int avg_min = 0;
+            int avg_max = 0;
+            int avg = 0;
+
+
             std::cout << std::string(line_lenght, '-') << std::endl;
-            std::cout << "Name: " << m_gld1.name << "           " << global_fighter_skills[8];
+            std::cout << "Name: " << m_gld1.name << "    " << global_fighter_skills_names[8];
             skill_bar(m_gld1.skills[1][8], m_gld1.skills[2][8], m_gld1.skills[0][8]);
-            std::cout <<  std::endl;
+            std::cout << "    Avg:" <<  std::endl;
+
             std::cout << std::string(line_lenght, '-') << std::endl;
 
         }
@@ -63,7 +69,7 @@
     {
         system("cls");
         std::cout << "******MENU******"<< std::endl;
-        fighter_bar(m_glds[0]);
+        fighter_bar(m_glds[1]);
         show_menu_option(menu0_opt);
         choice_menu_option(menu0_opt);
         switch (user_menu_choice)
@@ -72,7 +78,10 @@
             menu1(m_glds);
             break;
         case '2':
+            if (m_glds[1].skills[0][0] != 0)
             menu2(m_glds);
+            else 
+            menu2_a_1(m_glds);
             break;
         case '3':
             exit(0);
@@ -89,9 +98,9 @@
         system("cls");
         std::cout << "******MENU - Gladiator******" << std::endl << std::endl;
 
-        if (m_glds[0].skills[0][0] != 0)
+        if (m_glds[1].skills[0][0] != 0)
         {
-            m_glds[0].show_stats();
+            m_glds[1].show_stats();
         }
 
         else
@@ -106,15 +115,15 @@
         {
         case '1':
         {
-            if (m_glds[0].skills[0][0] != 0)
+            if (m_glds[1].skills[0][0] != 0)
             {
              menu11(m_glds);
             }
             else
             {
-             m_glds[0].generate_stats();
+             m_glds[1].generate_stats();
              //oznaczenie gladiatora gracza
-             m_glds[0].skills[0][0] = 1;
+             m_glds[1].skills[1][0] = 1;
              menu1(m_glds);
             }
             break;
@@ -134,16 +143,16 @@
     {
         system("cls");
         std::cout << "******MENU - Werbowac nowego******" << std::endl << std::endl;
-        m_glds[0].show_stats();
+        m_glds[1].show_stats();
         std::cout << "Posiadasz juz Gladiatora, czy zastapic istniejacego" << std::endl << std::endl;
         show_menu_option(menu11_opt);
         choice_menu_option(menu11_opt);
         switch (user_menu_choice)
         {
         case '1':
-            m_glds[0].generate_stats();
+            m_glds[1].generate_stats();
             //oznaczenie gladiatora gracza
-            m_glds[0].skills[0][0] = 1;
+            m_glds[1].skills[1][0] = 1;
             menu1(m_glds);
             break;
         case '2':
@@ -161,7 +170,7 @@
     {
         system("cls");
         std::cout << "******Arena******" << std::endl;
-        fighter_bar(m_glds[0]);
+        fighter_bar(m_glds[1]);
         show_menu_option(menu2_opt);
         choice_menu_option(menu2_opt);
         switch (user_menu_choice)
@@ -185,23 +194,48 @@
         }
     }
 
+    //Menu Arena_alternatywa_1 - brak gladiatora
+    void  Menu::menu2_a_1(std::vector <Fighter>& m_glds)
+    {
+        system("cls");
+        std::cout << "******Arena******" << std::endl;
+        fighter_bar(m_glds[1]);
+        std::cout << "Musisz posiadac gladiator, aby przystapic do walki" << std::endl;
+        show_menu_option(menu2_a_1_opt);
+        choice_menu_option(menu2_a_1_opt);
+        switch (user_menu_choice)
+        {
+        case '1':
+            menu0(m_glds);
+            break;
+        default:
+            std::cout << "Nie ma takiej opcji";
+            Sleep(500);
+            menu2(m_glds);
+        }
+    }
+
     //Menu pojedynku
     void  Menu::menu22(std::vector <Fighter>& m_glds)
     {
         system("cls");
         std::cout << "******Pojedynek******" << std::endl;
-        //fght.fight_show_stats(m_glds[0], m_glds[1]);
+        global_1_fighter_to_fight = 1;
+        fght.duel_start(m_glds);
+        fght.fight_show_stats(m_glds[global_1_fighter_to_fight], m_glds[global_2_fighter_to_fight]);
         show_menu_option(menu22_opt);
         choice_menu_option(menu22_opt);
         switch (user_menu_choice)
         {
         case '1':
-            fght.duel(m_glds[0], m_glds[1]);
+            fght.duel(m_glds);
             break;
         case '2':
-            fght.duel(m_glds[0], m_glds[1]);
+            fght.duel(m_glds);
             break;
         case '3':
+            global_1_fighter_to_fight = 0;
+            global_2_fighter_to_fight = 0;
             menu2(m_glds);
             break;
         default:

@@ -3,7 +3,10 @@
 #include <vector>
 
 //to sa tylko h od zmiennych globalnych. 
-//Deinicje w gladiators.cpp
+//Definicje w gladiators.cpp
+
+//ogolna liczba zawodnikow w grze
+extern int global_number_of_fighters;
 
 //pierwszy zawodnik do walki
 extern int global_1_fighter_to_fight;
@@ -17,11 +20,14 @@ extern int global_fighter_id;
 //dlugosc skill_bar paska umiejetnosci.
 extern int global_bar_lnt;
 
+//maxymalne doswiadczenie, po ktorym gladiator idzie na emeryture
+extern int global_maximum_of_exp;
+
 //Rozsuniecie pomiedzy wyswietleniem zawodnikow. 
 extern int global_fighters_space;
 
 //tablica z nazwami umiejetnosci
-extern std::string global_fighter_skills[];
+extern std::string global_fighter_skills_names[];
 
 //komentarz w walce z poprzdniej rundy
 extern std::string global_former_comment;

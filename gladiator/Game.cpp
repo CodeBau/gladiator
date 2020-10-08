@@ -4,6 +4,7 @@
 #include"Game.h"
 #include"Fighter.h"
 #include"Menu.h"
+#include"globals.h"
 
 
 Game::Game(){
@@ -20,15 +21,16 @@ void Game::initiation()
        
 
         std::vector<Fighter> glds;
-        //pierwsze 0 zeby indeks odpowiadal liczbie
-        glds.push_back(0);
-        for (int i = 1; i < 9; i++)
+        //pierwsze 0 -jest nieuzywany zeby indeks odpowiadal liczbie
+        //1-zawdonik to zawodnik gracza. (+1 poniewaz "<") 
+        for (int i = 0; i < global_number_of_fighters+1; i++)
+        {
             glds.push_back(Fighter());
-        
+        }
+            
         //oznaczenie gladiatora gracza
-        glds[0].skills[0][1] = 1;
+        glds[1].skills[0][1] = 1;
 
-        //Fight fght;
         Menu gamemenu;
         while (1==1)
         {

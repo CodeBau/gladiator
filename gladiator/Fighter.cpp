@@ -11,7 +11,7 @@ void Fighter::show_stats()
         std::cout << "Name: " << name << std::endl;
         for (int i = 2; i < (sizeof skills[0] / sizeof(int)); i++)
         {
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             skill_bar (skills[1][i], skills[2][i],skills[0][i]);
             std::cout << std::endl;
         }
@@ -22,7 +22,7 @@ void Fighter::show_stats_all()
         std::cout << "Name: " << name << std::endl;
         for (int i = 0; i < (sizeof skills[0] / sizeof(int)); i++)
         {
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             std::cout << skills[0][i] << std::endl;
         }
         std::cout << std::endl;
@@ -32,14 +32,13 @@ void Fighter::show_stats_all()
     {
         global_fighter_id++;
 
-
         name = global_names[uniform_distribution(0, global_names.size())]+ global_pseudos[uniform_distribution(0, global_pseudos.size())] + global_surnames[uniform_distribution(0, global_surnames.size())];
 
         //gladiator generate id (global+1)
         skills[0][0] = global_fighter_id;
 
         //znacznik gladiatora gracza
-        skills[0][1] = 0;
+        skills[1][0] = 0;
 
         //wytrzymalosc/endurance wartosc min i max mozliwa do wylosowania.
         skills[1][2] = 50;
@@ -78,9 +77,8 @@ void Fighter::show_stats_all()
 
         //doswiadczenie/experience wartosc wartosc min i max do skill_bar.
         skills[1][8] = 0;
-        skills[2][8] = 20;
+        skills[2][8] = global_maximum_of_exp;
         skills[0][8] = 0;
-
     }
 
    Fighter::Fighter()

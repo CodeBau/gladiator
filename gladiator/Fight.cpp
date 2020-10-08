@@ -5,6 +5,7 @@
 #include "uniform_distribution.h"
 #include "skill_bar.h"
 #include "fight_commentary.h"
+#include <conio.h>
 
 
 #include<windows.h>
@@ -17,16 +18,55 @@ Fight::Fight() {}
 Fight::~Fight() {}
 
 
-void Fight::fight_start_stage_view(std::vector <Fighter>& m_glds)
+void Fight::duel_start(std::vector <Fighter>& f_glds)
 {
-    
-    
-    if (f_gld2.skills[0][0] == 0)
+     global_2_fighter_to_fight = uniform_distribution(2, global_number_of_fighters);
+
+    if (f_glds[global_2_fighter_to_fight].skills[0][0] == 0|| f_glds[global_2_fighter_to_fight].skills[0][8] == global_maximum_of_exp)
     {
-        f_gld2.generate_stats();
+        f_glds[global_2_fighter_to_fight].generate_stats();
     }
 }
 
+void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
+{
+    std::string any;
+    system("cls");
+    fight_show_stats(f_gld1, f_gld2);
+
+    //ustawienie koloru tekstu konsoli na ciemno szary
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 8);
+    std::cout << global_former_comment << std::endl;
+    //powrot koloru do jasno szarego
+    SetConsoleTextAttribute(hConsole, 7);
+
+    //sprawdzamy kto wygral
+    if (f_gld1.skills[0][1] <= 0)
+    { 
+        std::cout << "Twoj zawodnik "<< f_gld1.name<<" ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
+        f_gld1.skills[0][0] = 0;
+        f_gld2.skills[0][1] = f_gld2.skills[2][1];
+        if (f_gld2.skills[0][8] < global_maximum_of_exp)
+            f_gld2.skills[0][8]++;
+    }
+
+    if (f_gld2.skills[0][1] <= 0)
+    {
+        std::cout << f_gld2.name << " umiera." << std::endl;
+        std::cout << "Twoj zawodnik "<<f_gld1.name<<" wygrywa walke, zdobywa doswiadczenie, laury i troche golda (jeszcze nie)" << std::endl;
+        f_gld2.skills[0][0] = 0;
+        f_gld1.skills[0][1] = f_gld1.skills[2][1];
+        if (f_gld1.skills[0][8] < global_maximum_of_exp)
+            f_gld1.skills[0][8]++;
+    }
+
+    std::cout<<std::endl  << "Nacisnij dowolny klawisz aby kontynuowac..." << std::endl;
+    any = _getch();
+
+    global_1_fighter_to_fight = 0;
+    global_2_fighter_to_fight = 0;
+}
 
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-sprawnosc, 4-szybkosc, 5- sila, 6-agresja, 7-doswiadczenie 
 void Fight::fight_aggression_stage_view(Fighter& f_gld1, Fighter& f_gld2)
@@ -47,37 +87,12 @@ void Fight::fight_aggression_stage_view(Fighter& f_gld1, Fighter& f_gld2)
         {
             fight_atack_stage_view(f_gld1, f_gld2);
         }
-
         else
         {
             fight_atack_stage_view(f_gld2, f_gld1);
         }
     }
-    system("cls");
-    fight_show_stats(f_gld1, f_gld2);
-
-    //ustawienie koloru tekstu konsoli na ciemno szary
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, 8);
-    std::cout << global_former_comment << std::endl;
-    //powrot koloru do jasno szarego
-    SetConsoleTextAttribute(hConsole, 7);
-
-    //sprawdzamy kto wygral
-    if (f_gld1.skills[0][1] <= 0)
-    {
-        std::cout << f_gld1.name << " umiera." << std::endl;
-        f_gld1.skills[0][0] = 0;
-        f_gld2.skills[0][1]= f_gld2.skills[2][1];
-        f_gld2.skills[0][8]++;
-    }
-    if (f_gld2.skills[0][1] <= 0)
-    {
-        std::cout << f_gld2.name << " umiera." << std::endl;
-        f_gld2.skills[0][0] = 0;
-        f_gld1.skills[0][1] = f_gld1.skills[2][1];
-        f_gld1.skills[0][8]++;
-    }
+    
 }
 
 void Fight::fight_atack_stage_view(Fighter& f_gld1, Fighter& f_gld2)
@@ -146,10 +161,10 @@ void Fight::fight_show_stats(Fighter& f_gld1, Fighter& f_gld2)
         std::cout << "Name: " << f_gld1.name << std::string(global_fighters_space, ' ') << "Name: " << f_gld2.name << std::endl;
         for (int i = 1; i < (sizeof f_gld1.skills[0] / sizeof(int)); i++)
         {
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             skill_bar(f_gld1.skills[1][i], f_gld1.skills[2][i], f_gld1.skills[0][i]);
             std::cout << std::string((first_name_lnt - max_skill_lnt + global_fighters_space + 1), ' ');
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             skill_bar(f_gld2.skills[1][i], f_gld2.skills[2][i], f_gld2.skills[0][i]);
             std::cout << std::endl;
         }
@@ -159,23 +174,22 @@ void Fight::fight_show_stats(Fighter& f_gld1, Fighter& f_gld2)
         std::cout << "Name: " << f_gld1.name << std::string(global_fighters_space + max_skill_lnt - first_name_lnt - 1, ' ') << "Name: " << f_gld2.name << std::endl;
         for (int i = 1; i < (sizeof f_gld1.skills[0] / sizeof(int)); i++)
         {
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             skill_bar(f_gld1.skills[1][i], f_gld1.skills[2][i], f_gld1.skills[0][i]);
             std::cout << std::string(global_fighters_space, ' ');
-            std::cout << global_fighter_skills[i];
+            std::cout << global_fighter_skills_names[i];
             skill_bar(f_gld2.skills[1][i], f_gld2.skills[2][i], f_gld2.skills[0][i]);
             std::cout << std::endl;
         }
     }
 }
 
-void Fight::duel(Fighter& f_gld1, Fighter& f_gld2)
+void Fight::duel(std::vector <Fighter>& f_glds)
 {
-    if (f_gld2.skills[0][0] == 0)
-    {
-        f_gld2.generate_stats();
-    }
-    fight_aggression_stage_view(f_gld1, f_gld2);
+   
+    fight_aggression_stage_view(f_glds[global_1_fighter_to_fight], f_glds[global_2_fighter_to_fight]);
+    duel_end(f_glds[global_1_fighter_to_fight], f_glds[global_2_fighter_to_fight]);
+    
 }
 
 void Fight::turnament()
