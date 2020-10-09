@@ -201,7 +201,7 @@
             menu22(m_glds);
             break;
         case '3':
-            menu2(m_glds);
+            menu23(m_glds);
             break;
         case '4':
             menu0(m_glds);
@@ -263,6 +263,32 @@
             std::cout << "Nie ma takiej opcji";
             Sleep(500);
             menu22(m_glds);
+        }
+    }
+   
+            //Menu turnieju
+    void  Menu::menu23(std::vector <Fighter>& m_glds)
+    {
+        system("cls");
+        std::cout << "******Turniej******" << std::endl;
+        /*global_1_fighter_to_fight = 1;
+        fght.duel_start(m_glds);
+        fght.fight_show_stats(m_glds[global_1_fighter_to_fight], m_glds[global_2_fighter_to_fight]);
+        */
+        show_menu_option(menu23_opt);
+        choice_menu_option(menu23_opt);
+        switch (user_menu_choice)
+        {
+        case '1':
+            menu23(m_glds);
+            break;
+        case '2':
+            menu2(m_glds);
+            break;
+        default:
+            std::cout << "Nie ma takiej opcji";
+            Sleep(500);
+            menu23(m_glds);
         }
     }
    

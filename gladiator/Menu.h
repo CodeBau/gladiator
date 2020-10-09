@@ -16,6 +16,7 @@ public:
     std::vector<std::string> menu2_opt{ "1.Trening", "2.Pojedynek", "3.Turniej","4.Powrot" };
     std::vector<std::string> menu2_a_1_opt{ "1.Powrot" };
     std::vector<std::string> menu22_opt{ "1.Pokaz walke", "2.Symuluj", "3.Powrot" };
+    std::vector<std::string> menu23_opt{ "1.Rozpocznij turniej", "2.Powrot" };
 
     Menu();
     ~Menu();
@@ -29,6 +30,7 @@ public:
     void menu2(std::vector <Fighter> &m_glds);
     void menu2_a_1(std::vector <Fighter> &m_glds);
     void menu22(std::vector <Fighter> &m_glds);
+    void menu23(std::vector <Fighter> &m_glds);
 
 
 

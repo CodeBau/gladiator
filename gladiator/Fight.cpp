@@ -68,6 +68,16 @@ void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
     global_2_fighter_to_fight = 0;
 }
 
+void Fight::turnament_start(std::vector <Fighter>& f_glds)
+{
+    global_2_fighter_to_fight = uniform_distribution(2, global_number_of_fighters);
+
+    if (f_glds[global_2_fighter_to_fight].skills[0][0] == 0 || f_glds[global_2_fighter_to_fight].skills[0][8] == global_maximum_of_exp)
+    {
+        f_glds[global_2_fighter_to_fight].generate_stats();
+    }
+}
+
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-odpornosc, 4-sprawnosc, 5-szybkosc, 6-sila, 7-agresja, 8-doswiadczenie 
 void Fight::fight_aggression_stage(Fighter& f_gld1, Fighter& f_gld2)
 {
@@ -102,45 +112,34 @@ void Fight::fight_atack_stage(Fighter& f_gld1, Fighter& f_gld2)
     int min_prct_hit = 50;      //minimalna wartosc uderzenia w % - dekalroawana tutaj
     int max_prct_hit = 100;     //maksymalna wartosc uderzenia w % - dekalroawana tutaj
 
-    int x5;                     //szybkosc 1 zawodnika
-    int y4;                     //sprawnosc 2 zawodnika
-    float spd_eff;              //stosunek szybkosci/sprawnosci
-    float min_spd_eff;          //min stosunek szybkosci do sprawnosci mozliwy do uzyskania
-    float max_spd_eff;          //max stosunek szybkosci do sprawnosci mozliwy do uzyskania
-    float prct_hit;             //wartosc makymalnego % ataku mozliwa do uzyskania
-    float los;                  //zmienna pprzetrzymujaca losowane wartosci
-    float hit;                  //wartosc uddrzenia
-    float max_hit;              //maksymalna wartosc uddrzenia
-    float damage;               //wartosc obrazen
-    float max_damage;           //wartosc obrazen
-
-
     //szybkosc pierwszego zawodnika
-    x5 = f_gld1.skills[0][5];
+    int x5 = f_gld1.skills[0][5];
     //sprawnosc 2 zawodnika
-    y4 = f_gld2.skills[0][4];
+    int y4 = f_gld2.skills[0][4];
     //stosunek szybkosci pierwszego zawodnika do sprawnosci drugigo zawodnika
-    spd_eff = (x5 * 1.0 / y4);
+    float spd_eff = (x5 * 1.0 / y4);
     //stosunek maximum szybkosci mozliwe do uzyskania oraz minimum sprawnosci mozliwe do uzyskania (skrajny przypadek max ataku)
-    max_spd_eff = f_gld1.skills[2][5] * 1.0 / f_gld2.skills[1][4];
+    float max_spd_eff = f_gld1.skills[2][5] * 1.0 / f_gld2.skills[1][4];
     //stosunek minimum szybkosci mozliwe do uzyskania oraz maximum sprawnosci mozliwe do uzyskania (skrajny przypadek min ataku)
-    min_spd_eff = f_gld1.skills[1][5] * 1.0 / f_gld2.skills[2][4];
+    float min_spd_eff = f_gld1.skills[1][5] * 1.0 / f_gld2.skills[2][4];
     //graniczna gorna wartosc ataku w [%] do uzyskania. Uzywamy wykresu liniowego z 2 pkt (max_prct_hit=max_spd_eff*a+b oraz min_prct_hit=min_spd_eff*a+b z spd_eff wyznaczamy prct_hit)
-    prct_hit = linear_function(max_prct_hit, max_spd_eff, min_prct_hit, min_spd_eff, spd_eff);
+    float prct_hit = linear_function(max_prct_hit, max_spd_eff, min_prct_hit, min_spd_eff, spd_eff);
     //losujmy rzeczywista wartosc uderzenia 
-    los = uniform_distribution(0, prct_hit);
+    float los = uniform_distribution(0, prct_hit);
     //sila 1 zawodnika
     int x6 = f_gld1.skills[0][6];
     //wartosc uderzenia = sila zawodnika pomnozona przez % ataku
-    hit = x6 * los / 100;
+    float hit = x6 * los / 100;
     //maksymalna wartosc uderzenia = sila zawodnika pomnozona przez maksymalny % ataku
-    max_hit = x6 * prct_hit / 100;
+    float max_hit = x6 * prct_hit / 100;
     //odpornosc zawodnika 2
     int y3 = f_gld2.skills[0][3];
+    //doswiadczenie zawodnika 2
+    int y8 = f_gld2.skills[0][8];
     //obrazenia uderzeie/wtrzymalos powiekszona o 15
-    damage = hit * 1.0 / y3 * 15;
+    float damage = hit * 1.0 / (y3+y8) * 15;
     //maksymalne mozliwe obrazenia uderzenie/wtrzymalos powiekszona o 15
-    max_damage = max_hit * 1.0 / y3 * 15;
+    float max_damage = max_hit * 1.0 / y3 * 15;
     int y1 = f_gld2.skills[0][1];
     //std::cout << "Punkty zycia " << f_gld2.name << " : " << y1 << std::endl;
     f_gld2.skills[0][1] = f_gld2.skills[0][1] - damage;
@@ -197,5 +196,6 @@ void Fight::duel(std::vector <Fighter>& f_glds)
 
 void Fight::turnament()
 {
+
 
 }
