@@ -18,6 +18,7 @@
     {
     }
 
+
     void Menu::fighter_bar(Fighter& m_gld1)
     {
         int line_lenght = 100;
@@ -33,12 +34,30 @@
             int avg_min = 0;
             int avg_max = 0;
             int avg = 0;
+            
+            //ilosc skilli w tablicy
+            //0-id, 1-zdrowie, 2-wytrzymalosc, 3-odpornosc, 4-sprawnosc, 5-szybkosc, 6-sila, 7-agresja, 8-doswiadczenie
+            int numb_of_skills = sizeof(m_gld1.skills[0]) / sizeof(m_gld1.skills[0][0]);
 
-
+            //bez 0-id, 1-zdrowie, 8-doswiadczenie
+            for (int i = 2; i < numb_of_skills-1; i++ )
+            {
+                avg_min = avg_min + m_gld1.skills[1][i];
+                avg_max = avg_max + m_gld1.skills[2][i];
+                avg = avg + m_gld1.skills[0][i];
+            }
+            numb_of_skills = numb_of_skills - 3;
+            avg_min = avg_min / numb_of_skills;
+            avg_max = avg_max / numb_of_skills;
+            avg = avg / numb_of_skills;
+                
             std::cout << std::string(line_lenght, '-') << std::endl;
             std::cout << "Name: " << m_gld1.name << "    " << global_fighter_skills_names[8];
             skill_bar(m_gld1.skills[1][8], m_gld1.skills[2][8], m_gld1.skills[0][8]);
-            std::cout << "    Avg:" <<  std::endl;
+            std::cout << "    Avg:";
+            skill_bar(avg_min, avg_max, avg);
+
+            std::cout << std::endl;
 
             std::cout << std::string(line_lenght, '-') << std::endl;
 

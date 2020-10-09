@@ -68,7 +68,7 @@ void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
     global_2_fighter_to_fight = 0;
 }
 
-//0-id, 1-zdrowie, 2-wytrzymalosc, 3-sprawnosc, 4-szybkosc, 5- sila, 6-agresja, 7-doswiadczenie 
+//0-id, 1-zdrowie, 2-wytrzymalosc, 3-odpornosc, 4-sprawnosc, 5-szybkosc, 6-sila, 7-agresja, 8-doswiadczenie 
 void Fight::fight_aggression_stage_view(Fighter& f_gld1, Fighter& f_gld2)
 {
     global_former_comment = "";
