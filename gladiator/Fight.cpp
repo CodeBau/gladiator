@@ -69,13 +69,15 @@ void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
 }
 
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-odpornosc, 4-sprawnosc, 5-szybkosc, 6-sila, 7-agresja, 8-doswiadczenie 
-void Fight::fight_aggression_stage_view(Fighter& f_gld1, Fighter& f_gld2)
+void Fight::fight_aggression_stage(Fighter& f_gld1, Fighter& f_gld2)
 {
     global_former_comment = "";
     while ((f_gld1.skills[0][1] > 0) & (f_gld2.skills[0][1] > 0))
     {
         system("cls");
+        if (global_show_fight_on_off==1)
         fight_show_stats(f_gld1, f_gld2);
+
         int x7 = f_gld1.skills[0][7];
         //std::cout <<"Agresja "<< f_gld1.name<<" : "<<x7<< std::endl;
         int y7 = f_gld2.skills[0][7];
@@ -85,17 +87,17 @@ void Fight::fight_aggression_stage_view(Fighter& f_gld1, Fighter& f_gld2)
 
         if (los < x7)
         {
-            fight_atack_stage_view(f_gld1, f_gld2);
+            fight_atack_stage(f_gld1, f_gld2);
         }
         else
         {
-            fight_atack_stage_view(f_gld2, f_gld1);
+            fight_atack_stage(f_gld2, f_gld1);
         }
     }
     
 }
 
-void Fight::fight_atack_stage_view(Fighter& f_gld1, Fighter& f_gld2)
+void Fight::fight_atack_stage(Fighter& f_gld1, Fighter& f_gld2)
 {
     int min_prct_hit = 50;      //minimalna wartosc uderzenia w % - dekalroawana tutaj
     int max_prct_hit = 100;     //maksymalna wartosc uderzenia w % - dekalroawana tutaj
@@ -144,6 +146,7 @@ void Fight::fight_atack_stage_view(Fighter& f_gld1, Fighter& f_gld2)
     f_gld2.skills[0][1] = f_gld2.skills[0][1] - damage;
     y1 = f_gld2.skills[0][1];
     //std::cout << "Zdrowie " << f_gld2.name << " po strzale : " << y1 << std::endl;
+    if (global_show_fight_on_off == 1)
     fight_commentary(f_gld1, f_gld2, damage, max_damage);
 }
 
@@ -187,7 +190,7 @@ void Fight::fight_show_stats(Fighter& f_gld1, Fighter& f_gld2)
 void Fight::duel(std::vector <Fighter>& f_glds)
 {
    
-    fight_aggression_stage_view(f_glds[global_1_fighter_to_fight], f_glds[global_2_fighter_to_fight]);
+    fight_aggression_stage(f_glds[global_1_fighter_to_fight], f_glds[global_2_fighter_to_fight]);
     duel_end(f_glds[global_1_fighter_to_fight], f_glds[global_2_fighter_to_fight]);
     
 }

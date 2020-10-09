@@ -14,6 +14,9 @@ extern int global_1_fighter_to_fight;
 //drugi zawodnik do walki
 extern int global_2_fighter_to_fight;
 
+//show fight 1-on/0-off
+extern int global_show_fight_on_off;
+
 //globalna zmienna nadajaca kolejny numer kazdemu stworzonemu gladiatorowi.
 extern int global_fighter_id;
 

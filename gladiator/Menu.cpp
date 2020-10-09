@@ -247,9 +247,11 @@
         switch (user_menu_choice)
         {
         case '1':
+            global_show_fight_on_off = 1;
             fght.duel(m_glds);
             break;
         case '2':
+            global_show_fight_on_off = 0;
             fght.duel(m_glds);
             break;
         case '3':

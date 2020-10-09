@@ -27,6 +27,7 @@ std::vector <std::string> global_pseudos ={ " 'Lufa' "," 'Kasztan' "," 'Maly' ",
 std::vector <std::string> global_surnames ={ "Nowak","Kowalski","Wisniewski","Wojcik","Kowalczyk","Kaminski","Lewandowski","Zielinski","Wozniak","Szymanski","Dabrowski","Kozlowski","Mazur","Jankowski","Kwiatkowski","Wojciechowski","Krawczyk","Kaczmarek","Piotrowski","Grabowski","Zajac","Pawlowski","Krol","Michalski","Wrobel","Wieczorek","Jablonski","Nowakowski","Majewski","Olszewski","Dudek","Stepien","Jaworski","Adamczyk","Malinowski","Gorski","Pawlak","Nowicki","Sikora","Witkowski","Rutkowski","Walczak","Baran","Michalak","Szewczyk","Ostrowski","Tomaszewski","Zalewski","Wroblewski","Pietrzak","Jasinski","Marciniak","Sadowski","Bak","Zawadzki","Duda","Jakubowski","Wilk","Chmielewski","Borkowski","Wlodarczyk","Sokolowski","Szczepanski","Sawicki","Lis","Kucharski","Kalinowski","Wysocki","Mazurek","Kubiak","Maciejewski","Kolodziej","Kazmierczak","Czarnecki","Sobczak","Konieczny","Krupa","Glowacki","Urbanski","Mroz","Zakrzewski","Wasilewski","Krajewski","Laskowski","Sikorski","Ziolkowski","Gajewski","Szulc","Makowski","Kaczmarczyk","Brzezinski","Baranowski","Przybylski","Szymczak","Kania","Kozak","Janik","Borowski","Blaszczyk","Adamski", };
 int global_1_fighter_to_fight = 0;
 int global_2_fighter_to_fight = 0;
+int global_show_fight_on_off = 0;
 
 
 int main()
