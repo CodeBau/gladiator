@@ -266,11 +266,12 @@
         }
     }
    
-            //Menu turnieju
+    //Menu turnieju
     void  Menu::menu23(std::vector <Fighter>& m_glds)
     {
         system("cls");
         std::cout << "******Turniej******" << std::endl;
+        fght.turnament_start(m_glds);
         /*global_1_fighter_to_fight = 1;
         fght.duel_start(m_glds);
         fght.fight_show_stats(m_glds[global_1_fighter_to_fight], m_glds[global_2_fighter_to_fight]);

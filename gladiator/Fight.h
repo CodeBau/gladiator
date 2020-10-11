@@ -14,6 +14,5 @@ public:
     void fight_show_stats(Fighter& f_gld1, Fighter& f_gld2);
     void duel(std::vector <Fighter>& f_glds);
     void turnament();
-
 };
 

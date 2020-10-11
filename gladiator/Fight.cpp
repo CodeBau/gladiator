@@ -5,13 +5,14 @@
 #include "uniform_distribution.h"
 #include "skill_bar.h"
 #include "fight_commentary.h"
-#include <conio.h>
 
 
 #include<windows.h>
 #include<ctime>
 #include<iomanip>
 #include<iostream>
+#include <conio.h>
+
 
 Fight::Fight() {}
 
@@ -70,12 +71,93 @@ void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
 
 void Fight::turnament_start(std::vector <Fighter>& f_glds)
 {
-    global_2_fighter_to_fight = uniform_distribution(2, global_number_of_fighters);
+    const int how_many_fighters_in_turnament = 8;
+    std::vector <int> all_fighters_list = {};
+    std::vector <int> turnament_fighters_list = {};
+    int possible_player_slot[how_many_fighters_in_turnament / 2];
+    int temp=0;
+    int turnament_longest_name=0;
 
-    if (f_glds[global_2_fighter_to_fight].skills[0][0] == 0 || f_glds[global_2_fighter_to_fight].skills[0][8] == global_maximum_of_exp)
+     
+    //generujemy liste wszystkich fighterow
+    for (int i = 1; i < global_number_of_fighters+1; i++)
     {
-        f_glds[global_2_fighter_to_fight].generate_stats();
+        all_fighters_list.push_back(i);
     }
+
+    for (int i = 1; i < how_many_fighters_in_turnament+1; i++)
+    {
+        turnament_fighters_list.push_back(0);
+    }
+
+    //zakladamy ze gladiator gracza zajmuje pierwsze miejsce w parze
+    //zawsze nieparzyste
+    //generujemy liste mozliwych slotow dla gracza
+    for (int i = 0; i < how_many_fighters_in_turnament; i=i+2)
+    {
+        possible_player_slot[temp] = i;
+        temp++;
+    }
+
+    //ustalamy pozycje zawodnika
+    temp = possible_player_slot[uniform_distribution(0, how_many_fighters_in_turnament / 2)];
+    turnament_fighters_list[temp]=1;
+    all_fighters_list.erase(all_fighters_list.begin());
+
+    for (int i=0; i< how_many_fighters_in_turnament; i++)
+    {
+        //jesli to nie wystepuje gladiator gracza to przypisz losowego z pozostalych
+        if (turnament_fighters_list[i] == 0)
+        {
+            temp = uniform_distribution(0, all_fighters_list.size());
+            turnament_fighters_list[i] = all_fighters_list[temp];
+            all_fighters_list.erase(all_fighters_list.begin()+temp);
+        }
+
+        //std::cout << turnament_fighters_list[i] << std::endl;
+        //generowanie statystyk dla umarlych i zbyt doswiadczonych
+        if (f_glds[turnament_fighters_list[i]].skills[0][0] == 0 || f_glds[turnament_fighters_list[i]].skills[0][8] == global_maximum_of_exp)
+        {
+            f_glds[turnament_fighters_list[i]].generate_stats();
+
+        }
+
+            //std::cout << f_glds[turnament_fighters_list[i]].name<<" "<<f_glds[turnament_fighters_list[i]].name.size()<< std::endl;
+
+        if (turnament_longest_name < f_glds[turnament_fighters_list[i]].name.size())
+        {
+            turnament_longest_name= f_glds[turnament_fighters_list[i]].name.size();
+        }
+        
+    }
+    
+    for (int i = 0; i < how_many_fighters_in_turnament; i++)
+    {
+        if (turnament_fighters_list[i]==1)
+        {
+            HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+            SetConsoleTextAttribute(hConsole, 3);
+        }
+
+        std::cout << std::string(turnament_longest_name + 4,'#' ) << std::endl;
+        std::cout << "# " << std::string(((turnament_longest_name - f_glds[turnament_fighters_list[i]].name.size()) / 2), ' ') << f_glds[turnament_fighters_list[i]].name;
+        std::cout << std::string(turnament_longest_name - (turnament_longest_name - f_glds[turnament_fighters_list[i]].name.size()) / 2 - f_glds[turnament_fighters_list[i]].name.size(), ' ') << " #" << std::endl;
+        std::cout << std::string(turnament_longest_name + 4, '#') << std::endl;
+        std::cout << std::endl;
+
+        if (i % 2 != 0)
+        {
+            std::cout << std::endl;
+            std::cout << std::endl;
+        }
+
+        if (turnament_fighters_list[i] == 1)
+        {
+            HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+            SetConsoleTextAttribute(hConsole, 7);
+        }
+    }
+
 }
 
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-odpornosc, 4-sprawnosc, 5-szybkosc, 6-sila, 7-agresja, 8-doswiadczenie 
@@ -104,7 +186,6 @@ void Fight::fight_aggression_stage(Fighter& f_gld1, Fighter& f_gld2)
             fight_atack_stage(f_gld2, f_gld1);
         }
     }
-    
 }
 
 void Fight::fight_atack_stage(Fighter& f_gld1, Fighter& f_gld2)
@@ -188,10 +269,8 @@ void Fight::fight_show_stats(Fighter& f_gld1, Fighter& f_gld2)
 
 void Fight::duel(std::vector <Fighter>& f_glds)
 {
-   
     fight_aggression_stage(f_glds[global_1_fighter_to_fight], f_glds[global_2_fighter_to_fight]);
     duel_end(f_glds[global_1_fighter_to_fight], f_glds[global_2_fighter_to_fight]);
-    
 }
 
 void Fight::turnament()

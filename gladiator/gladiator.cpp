@@ -15,7 +15,7 @@
 #include "skill_bar.h"
 
 //ogolna liczba zawodnikow (1...x; 1-zawodnik to zawodnika gracza)
-int global_number_of_fighters = 8;
+int global_number_of_fighters = 20;
 int global_fighter_id = 0;
 int global_maximum_of_exp = 20;
 int global_fighters_space = 20;
