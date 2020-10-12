@@ -37,8 +37,9 @@ void Fighter::show_stats_all()
         //gladiator generate id (global+1)
         skills[0][0] = global_fighter_id;
 
-        //znacznik gladiatora gracza
-        skills[1][0] = 0;
+        //znacznik fightera staly w grze
+        //1 for player fighter
+        skills[1][0];
 
         //wytrzymalosc/endurance wartosc min i max mozliwa do wylosowania.
         skills[1][2] = 50;

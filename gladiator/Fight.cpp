@@ -69,23 +69,23 @@ void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
     global_2_fighter_to_fight = 0;
 }
 
-void Fight::turnament_start(std::vector <Fighter>& f_glds)
+std::vector<int> Fight::turnament_generate(std::vector <Fighter>& f_glds)
 {
     const int how_many_fighters_in_turnament = 8;
     std::vector <int> all_fighters_list = {};
     std::vector <int> turnament_fighters_list = {};
     int possible_player_slot[how_many_fighters_in_turnament / 2];
-    int temp=0;
-    int turnament_longest_name=0;
+    int temp = 0;
+    int turnament_longest_name = 0;
 
-     
+
     //generujemy liste wszystkich fighterow
-    for (int i = 1; i < global_number_of_fighters+1; i++)
+    for (int i = 1; i < global_number_of_fighters + 1; i++)
     {
         all_fighters_list.push_back(i);
     }
 
-    for (int i = 1; i < how_many_fighters_in_turnament+1; i++)
+    for (int i = 1; i < how_many_fighters_in_turnament + 1; i++)
     {
         turnament_fighters_list.push_back(0);
     }
@@ -93,7 +93,7 @@ void Fight::turnament_start(std::vector <Fighter>& f_glds)
     //zakladamy ze gladiator gracza zajmuje pierwsze miejsce w parze
     //zawsze nieparzyste
     //generujemy liste mozliwych slotow dla gracza
-    for (int i = 0; i < how_many_fighters_in_turnament; i=i+2)
+    for (int i = 0; i < how_many_fighters_in_turnament; i = i + 2)
     {
         possible_player_slot[temp] = i;
         temp++;
@@ -101,19 +101,19 @@ void Fight::turnament_start(std::vector <Fighter>& f_glds)
 
     //ustalamy pozycje zawodnika
     temp = possible_player_slot[uniform_distribution(0, how_many_fighters_in_turnament / 2)];
-    turnament_fighters_list[temp]=1;
+    turnament_fighters_list[temp] = 1;
     all_fighters_list.erase(all_fighters_list.begin());
 
-    for (int i=0; i< how_many_fighters_in_turnament; i++)
+    for (int i = 0; i < how_many_fighters_in_turnament; i++)
     {
         //jesli to nie wystepuje gladiator gracza to przypisz losowego z pozostalych
         if (turnament_fighters_list[i] == 0)
         {
             temp = uniform_distribution(0, all_fighters_list.size());
             turnament_fighters_list[i] = all_fighters_list[temp];
-            all_fighters_list.erase(all_fighters_list.begin()+temp);
+            all_fighters_list.erase(all_fighters_list.begin() + temp);
         }
-
+        
         //std::cout << turnament_fighters_list[i] << std::endl;
         //generowanie statystyk dla umarlych i zbyt doswiadczonych
         if (f_glds[turnament_fighters_list[i]].skills[0][0] == 0 || f_glds[turnament_fighters_list[i]].skills[0][8] == global_maximum_of_exp)
@@ -121,43 +121,50 @@ void Fight::turnament_start(std::vector <Fighter>& f_glds)
             f_glds[turnament_fighters_list[i]].generate_stats();
 
         }
+    }
+    return turnament_fighters_list;
+}
 
-            //std::cout << f_glds[turnament_fighters_list[i]].name<<" "<<f_glds[turnament_fighters_list[i]].name.size()<< std::endl;
 
-        if (turnament_longest_name < f_glds[turnament_fighters_list[i]].name.size())
+void Fight::turnament_start(std::vector <Fighter>& f_glds, std::vector<int> &f_turnament_fighters_list)
+{
+    
+    int turnament_longest_name=0;
+
+    for (int i=0; i< f_turnament_fighters_list.size(); i++)
+    {
+        if (turnament_longest_name < f_glds[f_turnament_fighters_list[i]].name.size())
         {
-            turnament_longest_name= f_glds[turnament_fighters_list[i]].name.size();
+            turnament_longest_name= f_glds[f_turnament_fighters_list[i]].name.size();
         }
-        
     }
     
-    for (int i = 0; i < how_many_fighters_in_turnament; i++)
+    for (int i = 0; i < f_turnament_fighters_list.size(); i++)
     {
-        if (turnament_fighters_list[i]==1)
+        if (f_turnament_fighters_list[i]==1)
         {
             HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
             SetConsoleTextAttribute(hConsole, 3);
         }
 
         std::cout << std::string(turnament_longest_name + 4,'#' ) << std::endl;
-        std::cout << "# " << std::string(((turnament_longest_name - f_glds[turnament_fighters_list[i]].name.size()) / 2), ' ') << f_glds[turnament_fighters_list[i]].name;
-        std::cout << std::string(turnament_longest_name - (turnament_longest_name - f_glds[turnament_fighters_list[i]].name.size()) / 2 - f_glds[turnament_fighters_list[i]].name.size(), ' ') << " #" << std::endl;
+        std::cout << "# " << std::string(((turnament_longest_name - f_glds[f_turnament_fighters_list[i]].name.size()) / 2), ' ') << f_glds[f_turnament_fighters_list[i]].name;
+        std::cout << std::string(turnament_longest_name - (turnament_longest_name - f_glds[f_turnament_fighters_list[i]].name.size()) / 2 - f_glds[f_turnament_fighters_list[i]].name.size(), ' ') << " #" << std::endl;
         std::cout << std::string(turnament_longest_name + 4, '#') << std::endl;
         std::cout << std::endl;
 
-        if (i % 2 != 0)
+        if (i % 2 != 0 && i!= f_turnament_fighters_list.size() -1)
         {
             std::cout << std::endl;
             std::cout << std::endl;
         }
 
-        if (turnament_fighters_list[i] == 1)
+        if (f_turnament_fighters_list[i] == 1)
         {
             HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
             SetConsoleTextAttribute(hConsole, 7);
         }
     }
-
 }
 
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-odpornosc, 4-sprawnosc, 5-szybkosc, 6-sila, 7-agresja, 8-doswiadczenie 
@@ -214,11 +221,11 @@ void Fight::fight_atack_stage(Fighter& f_gld1, Fighter& f_gld2)
     //maksymalna wartosc uderzenia = sila zawodnika pomnozona przez maksymalny % ataku
     float max_hit = x6 * prct_hit / 100;
     //odpornosc zawodnika 2
-    int y3 = f_gld2.skills[0][3];
+    float y3 = f_gld2.skills[0][3];
     //doswiadczenie zawodnika 2
-    int y8 = f_gld2.skills[0][8];
+    float y8 = f_gld2.skills[0][8];
     //obrazenia uderzeie/wtrzymalos powiekszona o 15
-    float damage = hit * 1.0 / (y3+y8) * 15;
+    float damage = hit * 1.0 / (y3+y8)*15;
     //maksymalne mozliwe obrazenia uderzenie/wtrzymalos powiekszona o 15
     float max_damage = max_hit * 1.0 / y3 * 15;
     int y1 = f_gld2.skills[0][1];

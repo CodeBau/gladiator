@@ -1,8 +1,5 @@
 #include"fight_commentary.h"
-#include"Fighter.h"
-#include"uniform_distribution.h"
 #include"globals.h"
-
 
 #include<vector>
 #include<string>

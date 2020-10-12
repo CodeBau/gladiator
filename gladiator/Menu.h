@@ -2,8 +2,6 @@
 
 #include"Fight.h"
 #include"Fighter.h"
-#include"Normal_distribution_old.h"
-
 
 class Menu {
 public:
@@ -15,8 +13,9 @@ public:
     std::vector<std::string> menu11_opt{ "1.Tak","2.Zrezygnuj"};
     std::vector<std::string> menu2_opt{ "1.Trening", "2.Pojedynek", "3.Turniej","4.Powrot" };
     std::vector<std::string> menu2_a_1_opt{ "1.Powrot" };
-    std::vector<std::string> menu22_opt{ "1.Pokaz walke", "2.Symuluj", "3.Powrot" };
+    std::vector<std::string> menu22_opt{ "1.Pokaz walke", "2.Symuluj walke", "3.Powrot" };
     std::vector<std::string> menu23_opt{ "1.Rozpocznij turniej", "2.Powrot" };
+    std::vector<std::string> menu231_opt{ "1.Pokaz walke", "2.Symuluj walke", "3.Powrot" };
 
     Menu();
     ~Menu();
@@ -31,6 +30,7 @@ public:
     void menu2_a_1(std::vector <Fighter> &m_glds);
     void menu22(std::vector <Fighter> &m_glds);
     void menu23(std::vector <Fighter> &m_glds);
+    void menu231(std::vector <Fighter> &m_glds, std::vector<int>& m_turnament_fighters_list);
 
 
 

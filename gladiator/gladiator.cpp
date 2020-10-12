@@ -13,6 +13,7 @@
 #include "uniform_distribution.h"
 #include "globals.h"
 #include "skill_bar.h"
+#include "avarage_skills.h"
 
 //ogolna liczba zawodnikow (1...x; 1-zawodnik to zawodnika gracza)
 int global_number_of_fighters = 20;

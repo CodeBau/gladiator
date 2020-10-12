@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dupa.cpp" />
+    <ClCompile Include="avarage_skills.cpp" />
     <ClCompile Include="fight_commentary.cpp" />
     <ClCompile Include="Fight.cpp" />
     <ClCompile Include="Fighter.cpp" />
@@ -148,7 +148,6 @@
     <ClCompile Include="linear_function.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="normal_distribution.cpp" />
-    <ClCompile Include="Normal_distribution_old.cpp" />
     <ClCompile Include="skill_bar.cpp" />
     <ClCompile Include="uniform_distribution.cpp" />
   </ItemGroup>
@@ -156,7 +155,7 @@
     <Text Include="smietnik.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dupa.h" />
+    <ClInclude Include="avarage_skills.h" />
     <ClInclude Include="fight_commentary.h" />
     <ClInclude Include="Fight.h" />
     <ClInclude Include="Fighter.h" />
@@ -165,7 +164,6 @@
     <ClInclude Include="linear_function.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="normal_distribution.h" />
-    <ClInclude Include="Normal_distribution_old.h" />
     <ClInclude Include="skill_bar.h" />
     <ClInclude Include="uniform_distribution.h" />
   </ItemGroup>

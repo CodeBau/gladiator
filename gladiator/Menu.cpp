@@ -9,6 +9,7 @@
 #include "Menu.h"
 #include "Game.h"
 #include "skill_bar.h"
+#include "avarage_skills.h"
 
     Menu::Menu()
     {
@@ -31,31 +32,13 @@
         }
         else
         {
-            int avg_min = 0;
-            int avg_max = 0;
-            int avg = 0;
             
-            //ilosc skilli w tablicy
-            //0-id, 1-zdrowie, 2-wytrzymalosc, 3-odpornosc, 4-sprawnosc, 5-szybkosc, 6-sila, 7-agresja, 8-doswiadczenie
-            int numb_of_skills = sizeof(m_gld1.skills[0]) / sizeof(m_gld1.skills[0][0]);
-
-            //bez 0-id, 1-zdrowie, 8-doswiadczenie
-            for (int i = 2; i < numb_of_skills-1; i++ )
-            {
-                avg_min = avg_min + m_gld1.skills[1][i];
-                avg_max = avg_max + m_gld1.skills[2][i];
-                avg = avg + m_gld1.skills[0][i];
-            }
-            numb_of_skills = numb_of_skills - 3;
-            avg_min = avg_min / numb_of_skills;
-            avg_max = avg_max / numb_of_skills;
-            avg = avg / numb_of_skills;
                 
             std::cout << std::string(line_lenght, '-') << std::endl;
             std::cout << "Name: " << m_gld1.name << "    " << global_fighter_skills_names[8];
             skill_bar(m_gld1.skills[1][8], m_gld1.skills[2][8], m_gld1.skills[0][8]);
             std::cout << "    Avg:";
-            skill_bar(avg_min, avg_max, avg);
+            skill_bar(avarage_skills(m_gld1)[0], avarage_skills(m_gld1)[1], avarage_skills(m_gld1)[2]);
 
             std::cout << std::endl;
 
@@ -271,17 +254,14 @@
     {
         system("cls");
         std::cout << "******Turniej******" << std::endl;
-        fght.turnament_start(m_glds);
-        /*global_1_fighter_to_fight = 1;
-        fght.duel_start(m_glds);
-        fght.fight_show_stats(m_glds[global_1_fighter_to_fight], m_glds[global_2_fighter_to_fight]);
-        */
+        std::vector <int> temp_list = fght.turnament_generate(m_glds);
+        fght.turnament_start(m_glds, temp_list);
         show_menu_option(menu23_opt);
         choice_menu_option(menu23_opt);
         switch (user_menu_choice)
         {
         case '1':
-            menu23(m_glds);
+            menu231(m_glds, temp_list);
             break;
         case '2':
             menu2(m_glds);
@@ -293,6 +273,41 @@
         }
     }
    
-        
+    //Menu turnieju - 1 runda
+    void  Menu::menu231(std::vector <Fighter>& m_glds, std::vector<int>& m_turnament_fighters_list)
+    {
+        int do_you_want_exit = 0;
+        for (int i=0; i< m_turnament_fighters_list.size();i=i+2)
+        { 
+            system("cls");
+            std::cout << i << std::endl;
+            std::cout << "******Turniej - Runda 1******" << std::endl;
+            fght.turnament_start(m_glds, m_turnament_fighters_list);
+            show_menu_option(menu231_opt);
+            choice_menu_option(menu231_opt);
+            switch (user_menu_choice)
+            {
+            case '1':
+                global_show_fight_on_off = 1;
+                fght.fight_aggression_stage(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i+1]]);
+                
+                global_show_fight_on_off = 0;
+                break;
+            case '2':
+                global_show_fight_on_off = 0;
+                fght.fight_aggression_stage(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]]);
+                break;
+            case '3':
+                do_you_want_exit = 0;
+                break;
+            default:
+                std::cout << "Nie ma takiej opcji";
+                Sleep(500);
+                menu231(m_glds, m_turnament_fighters_list);
+            }
+        }
+
+
+    }
        
     

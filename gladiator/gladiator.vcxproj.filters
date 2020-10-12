@@ -39,16 +39,13 @@
     <ClCompile Include="linear_function.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Normal_distribution_old.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="normal_distribution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Fighter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dupa.cpp">
+    <ClCompile Include="avarage_skills.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -82,16 +79,13 @@
     <ClInclude Include="linear_function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Normal_distribution_old.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="normal_distribution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Fighter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dupa.h">
+    <ClInclude Include="avarage_skills.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
