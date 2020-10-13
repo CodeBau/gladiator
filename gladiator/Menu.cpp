@@ -306,6 +306,8 @@ break;
                 }
             }
 
+
+            //trzeba dodac sprawdzenia w raz z any_key
             for (int i = 0; i < m_turnament_fighters_list.size(); i++)
             {
                 if (m_glds[m_turnament_fighters_list[i]].skills[0][0] == 0)
