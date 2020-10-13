@@ -21,7 +21,7 @@ extern int global_show_fight_on_off;
 extern int global_fighter_id;
 
 //dlugosc skill_bar paska umiejetnosci.
-extern int global_bar_lnt;
+extern int global_skill_bar_length;
 
 //maxymalne doswiadczenie, po ktorym gladiator idzie na emeryture
 extern int global_maximum_of_exp;

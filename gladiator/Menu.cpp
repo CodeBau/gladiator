@@ -28,22 +28,16 @@
             std::cout << std::string(line_lenght,'-') << std::endl;
             std::cout << "Nie posiadasz gladiatora, mozesz go zwerbowac w zakladce gladiator" << std::endl;
             std::cout << std::string(line_lenght, '-') << std::endl;
-
         }
         else
         {
-            
-                
             std::cout << std::string(line_lenght, '-') << std::endl;
             std::cout << "Name: " << m_gld1.name << "    " << global_fighter_skills_names[8];
             skill_bar(m_gld1.skills[1][8], m_gld1.skills[2][8], m_gld1.skills[0][8]);
             std::cout << "    Avg:";
             skill_bar(avarage_skills(m_gld1)[0], avarage_skills(m_gld1)[1], avarage_skills(m_gld1)[2]);
-
             std::cout << std::endl;
-
             std::cout << std::string(line_lenght, '-') << std::endl;
-
         }
     }
 
@@ -179,7 +173,7 @@
         {
         case '1':
             menu2(m_glds);
-            break;
+break;
         case '2':
             menu22(m_glds);
             break;
@@ -202,7 +196,7 @@
         system("cls");
         std::cout << "******Arena******" << std::endl;
         fighter_bar(m_glds[1]);
-        std::cout << "Musisz posiadac gladiator, aby przystapic do walki" << std::endl;
+        std::cout << "Musisz posiadac gladiatora, aby przystapic do walki" << std::endl;
         show_menu_option(menu2_a_1_opt);
         choice_menu_option(menu2_a_1_opt);
         switch (user_menu_choice)
@@ -248,7 +242,7 @@
             menu22(m_glds);
         }
     }
-   
+
     //Menu turnieju
     void  Menu::menu23(std::vector <Fighter>& m_glds)
     {
@@ -272,42 +266,55 @@
             menu23(m_glds);
         }
     }
-   
+
     //Menu turnieju - 1 runda
     void  Menu::menu231(std::vector <Fighter>& m_glds, std::vector<int>& m_turnament_fighters_list)
     {
         int do_you_want_exit = 0;
-        for (int i=0; i< m_turnament_fighters_list.size();i=i+2)
-        { 
-            system("cls");
-            std::cout << i << std::endl;
-            std::cout << "******Turniej - Runda 1******" << std::endl;
-            fght.turnament_start(m_glds, m_turnament_fighters_list);
-            show_menu_option(menu231_opt);
-            choice_menu_option(menu231_opt);
-            switch (user_menu_choice)
+
+        //wstepnie 5
+        for (int j=1;j<5;j++)
+        {
+            for (int i = 0; i < m_turnament_fighters_list.size(); i = i + 2)
             {
-            case '1':
-                global_show_fight_on_off = 1;
-                fght.fight_aggression_stage(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i+1]]);
-                
-                global_show_fight_on_off = 0;
-                break;
-            case '2':
-                global_show_fight_on_off = 0;
-                fght.fight_aggression_stage(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]]);
-                break;
-            case '3':
-                do_you_want_exit = 0;
-                break;
-            default:
-                std::cout << "Nie ma takiej opcji";
-                Sleep(500);
-                menu231(m_glds, m_turnament_fighters_list);
+                system("cls");
+                std::cout << j <<" "<< i << std::endl;
+                std::cout << "******Turniej - Runda 1******" << std::endl;
+                fght.turnament_start(m_glds, m_turnament_fighters_list);
+                show_menu_option(menu231_opt);
+                choice_menu_option(menu231_opt);
+                switch (user_menu_choice)
+                {
+                case '1':
+                    global_show_fight_on_off = 1;
+                    fght.fight_aggression_stage(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]]);
+                    fght.turnament_fight_end(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]], m_turnament_fighters_list);
+                    global_show_fight_on_off = 0;
+                    break;
+                case '2':
+                    global_show_fight_on_off = 0;
+                    fght.fight_aggression_stage(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]]);
+                    fght.turnament_fight_end(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]], m_turnament_fighters_list);
+                    break;
+                case '3':
+                    do_you_want_exit = 1;
+                    break;
+                default:
+                    std::cout << "Nie ma takiej opcji";
+                    Sleep(500);
+                    menu231(m_glds, m_turnament_fighters_list);
+                }
             }
+
+            for (int i = 0; i < m_turnament_fighters_list.size(); i++)
+            {
+                if (m_glds[m_turnament_fighters_list[i]].skills[0][0] == 0)
+                {
+                    m_turnament_fighters_list.erase(m_turnament_fighters_list.begin() + i);
+                }
+            }
+
         }
-
-
     }
        
     

@@ -18,7 +18,6 @@ void fight_commentary(Fighter& f_gld1, Fighter& f_gld2, float f_hit, float f_max
 	std::string att_aim[] = { "glowe", "udo", "ramie", "korpus", "watrobe", "szczeke", "oko", "kolano", "szyje" };
 	std::string present_comment;
 
-
 	if (global_former_comment!="")
 	{ 
 		//ustawienie koloru tekstu konsoli na ciemno szary

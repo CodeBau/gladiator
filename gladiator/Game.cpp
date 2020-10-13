@@ -26,6 +26,7 @@ void Game::initiation()
         for (int i = 0; i < global_number_of_fighters+1; i++)
         {
             glds.push_back(Fighter());
+            glds[i].skills[1][0] = i;
         }
             
         //oznaczenie gladiatora gracza

@@ -20,7 +20,7 @@ int global_number_of_fighters = 20;
 int global_fighter_id = 0;
 int global_maximum_of_exp = 20;
 int global_fighters_space = 20;
-int global_bar_lnt = 20;
+int global_skill_bar_length = 20;
 std::string global_fighter_skills_names[] = { "Id:            ", "Punkty zycia:  ", "Wytrzymalosc:  ", "Odpornosc:     ","Sprawnosc:     ","Szybkosc:      ","Sila:          ","Agresja:       ", "Doswiadczenie: " };
 std::string global_former_comment;
 std::vector <std::string> global_names ={ "Jan", "Stanislaw", "Andrzej", "Jozef", "Tadeusz", "Jerzy", "Zbigniew", "Krzysztof", "Henryk", "Ryszard", "Kazimierz", "Marek", "Marian", "Piotr", "Janusz", "Wladyslaw", "Adam", "Wieslaw", "Zdzislaw", "Edward", "Mieczyslaw", "Roman", "Miroslaw", "Grzegorz", "Czeslaw", "Dariusz", "Wojciech", "Jacek", "Eugeniusz", "Tomasz", "Stefan", "Zygmunt", "Leszek", "Bogdan", "Antoni", "Pawel", "Franciszek", "Slawomir", "Waldemar", "Jaroslaw", "Robert", "Mariusz", "Wlodzimierz", "Michal", "Zenon", "Boguslaw", "Witold", "Aleksander", "Bronislaw", "Waclaw", "Boleslaw", "Ireneusz", "Maciej", "Artur", "Edmund", "Marcin", "Lech", "Karol", "Rafal", "Arkadiusz", "Leon", "Sylwester", "Lucjan", "Julian", "Wiktor", "Romuald", "Bernard", "Ludwik", "Feliks", "Alfred", "Alojzy", "Przemyslaw", "Cezary", "Daniel", "Mikolaj", "Ignacy", "Leslaw", "Radoslaw", "Konrad", "Bogumil", "Szczepan", "Gerard", "Hieronim", "Krystian", "Leonard", "Wincenty", "Benedykt", "Hubert", "Sebastian", "Norbert", "Adolf", "Lukasz", "Emil", "Teodor", "Rudolf", "Joachim", "Jakub", "Walenty", "Alfons", "Damian" };

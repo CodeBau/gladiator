@@ -5,6 +5,7 @@
 #include "uniform_distribution.h"
 #include "skill_bar.h"
 #include "fight_commentary.h"
+#include "avarage_skills.h"
 
 
 #include<windows.h>
@@ -31,7 +32,7 @@ void Fight::duel_start(std::vector <Fighter>& f_glds)
 
 void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
 {
-    std::string any;
+    std::string any_key;
     system("cls");
     fight_show_stats(f_gld1, f_gld2);
 
@@ -63,11 +64,12 @@ void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
     }
 
     std::cout<<std::endl  << "Nacisnij dowolny klawisz aby kontynuowac..." << std::endl;
-    any = _getch();
+    any_key = _getch();
 
     global_1_fighter_to_fight = 0;
     global_2_fighter_to_fight = 0;
 }
+
 
 std::vector<int> Fight::turnament_generate(std::vector <Fighter>& f_glds)
 {
@@ -129,7 +131,7 @@ std::vector<int> Fight::turnament_generate(std::vector <Fighter>& f_glds)
 void Fight::turnament_start(std::vector <Fighter>& f_glds, std::vector<int> &f_turnament_fighters_list)
 {
     
-    int turnament_longest_name=0;
+    int turnament_longest_name=global_skill_bar_length+2;
 
     for (int i=0; i< f_turnament_fighters_list.size(); i++)
     {
@@ -141,31 +143,173 @@ void Fight::turnament_start(std::vector <Fighter>& f_glds, std::vector<int> &f_t
     
     for (int i = 0; i < f_turnament_fighters_list.size(); i++)
     {
-        if (f_turnament_fighters_list[i]==1)
+        if (f_glds[f_turnament_fighters_list[i]].skills[0][0] == 0)
         {
             HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-            SetConsoleTextAttribute(hConsole, 3);
-        }
+            SetConsoleTextAttribute(hConsole, 8);
 
-        std::cout << std::string(turnament_longest_name + 4,'#' ) << std::endl;
-        std::cout << "# " << std::string(((turnament_longest_name - f_glds[f_turnament_fighters_list[i]].name.size()) / 2), ' ') << f_glds[f_turnament_fighters_list[i]].name;
-        std::cout << std::string(turnament_longest_name - (turnament_longest_name - f_glds[f_turnament_fighters_list[i]].name.size()) / 2 - f_glds[f_turnament_fighters_list[i]].name.size(), ' ') << " #" << std::endl;
-        std::cout << std::string(turnament_longest_name + 4, '#') << std::endl;
-        std::cout << std::endl;
-
-        if (i % 2 != 0 && i!= f_turnament_fighters_list.size() -1)
-        {
+            //R.I.P - 5 znakow
+            std::cout << std::string(turnament_longest_name + 4, '#') << std::endl;
+            std::cout << "# " << std::string((turnament_longest_name - 5) / 2, ' ') << "R.I.P";
+            std::cout << std::string(turnament_longest_name - (turnament_longest_name - 5) / 2 - 5, ' ') << " #" << std::endl;
+            std::cout << "# " << std::string(turnament_longest_name, ' ');
+            std::cout << " #" << std::endl;
+            std::cout << std::string(turnament_longest_name + 4, '#') << std::endl;
             std::cout << std::endl;
-            std::cout << std::endl;
-        }
 
-        if (f_turnament_fighters_list[i] == 1)
-        {
-            HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
             SetConsoleTextAttribute(hConsole, 7);
+
+        }
+
+        else 
+        {
+            if (f_turnament_fighters_list[i]==1)
+            {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole, 3);
+            }
+
+            std::cout << std::string(turnament_longest_name + 4,'#' ) << std::endl;
+            std::cout << "# " << std::string(((turnament_longest_name - f_glds[f_turnament_fighters_list[i]].name.size()) / 2), ' ') << f_glds[f_turnament_fighters_list[i]].name;
+            std::cout << std::string(turnament_longest_name - (turnament_longest_name - f_glds[f_turnament_fighters_list[i]].name.size()) / 2 - f_glds[f_turnament_fighters_list[i]].name.size(), ' ') << " #" << std::endl;
+
+            std::cout << "# " << std::string(((turnament_longest_name - global_skill_bar_length - 2) / 2), ' '); 
+            if (f_turnament_fighters_list[i] == 1)
+            {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
+            skill_bar(avarage_skills(f_glds[f_turnament_fighters_list[i]])[0], avarage_skills(f_glds[f_turnament_fighters_list[i]])[1], avarage_skills(f_glds[f_turnament_fighters_list[i]])[2]);
+            std::cout << std::string(turnament_longest_name - (turnament_longest_name - global_skill_bar_length - 2) / 2 - (global_skill_bar_length + 2), ' ');
+        
+            if (f_turnament_fighters_list[i] == 1)
+            {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole, 3);
+            }
+
+            std::cout<<" #" << std::endl;
+            std::cout << std::string(turnament_longest_name + 4, '#') << std::endl;
+            std::cout << std::endl;
+
+            if (i % 2 != 0 && i!= f_turnament_fighters_list.size() -1)
+            {
+                std::cout << std::endl;
+                std::cout << std::endl;
+            }
+
+            if (f_turnament_fighters_list[i] == 1)
+            {
+                HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(hConsole, 7);
+            }
         }
     }
 }
+
+void Fight::turnament_fight_end(Fighter& f_gld1, Fighter& f_gld2, std::vector<int>&f_turnament_fighters_list)
+{
+    std::string any_key;
+    system("cls");
+    fight_show_stats(f_gld1, f_gld2);
+
+    //ustawienie koloru tekstu konsoli na ciemno szary
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 8);
+    std::cout << global_former_comment << std::endl;
+    //powrot koloru do jasno szarego
+    SetConsoleTextAttribute(hConsole, 7);
+
+    //sprawdzamy kto wygral
+
+    if (f_turnament_fighters_list.size() == 2)
+    {
+        if (f_gld1.skills[0][1] <= 0)
+        {
+            if (f_gld1.skills[0][0] != 1)
+            {
+                std::cout << f_gld1.name << " umiera." << std::endl;
+
+                if (f_gld2.skills[0][0] != 1)
+                    std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
+                else
+                    std::cout << "Twoj zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
+
+            }
+            else
+            {
+                std::cout << "Twoj zawodnik " << f_gld1.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
+                std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
+            }
+            //zerujemy indeks zawodnika
+            f_gld1.skills[0][0] = 0;
+            //przywracamy zdrowie
+            f_gld2.skills[0][1] = f_gld2.skills[2][1];
+            //dodajemy doswiadczenie- sprawdzamy czy nie bedzie wieksze od mozliwego maximum
+            if (f_gld2.skills[0][8] < global_maximum_of_exp)
+                f_gld2.skills[0][8]++;
+        }
+    }
+    else
+    {
+        if (f_gld1.skills[0][1] <= 0)
+        {
+            if (f_gld1.skills[0][0] != 1)
+            {
+                std::cout << f_gld1.name << " umiera." << std::endl;
+
+                if (f_gld2.skills[0][0] != 1)
+                std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
+                else
+                std::cout << "Twoj zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
+
+            }
+            else
+            {
+                std::cout << "Twoj zawodnik " << f_gld1.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
+                std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniejy" << std::endl;
+            }
+            //zerujemy indeks zawodnika
+            f_gld1.skills[0][0] = 0;
+            //przywracamy zdrowie
+            f_gld2.skills[0][1] = f_gld2.skills[2][1];
+            //dodajemy doswiadczenie- sprawdzamy czy nie bedzie wieksze od mozliwego maximum
+            if (f_gld2.skills[0][8] < global_maximum_of_exp)
+                f_gld2.skills[0][8]++;
+        }
+
+        if (f_gld2.skills[0][1] <= 0)
+        {
+            if (f_gld2.skills[0][0] != 1)
+            {
+                std::cout << f_gld2.name << " umiera." << std::endl;
+                if (f_gld1.skills[0][0] != 1)
+                std::cout << "Zawodnik " << f_gld1.name << " wygrywa walke, zdobywa doswiadczenie, laury" << std::endl;
+                else 
+                std::cout << "Twoj zawodnik " << f_gld1.name << " wygrywa walke, zdobywa doswiadczenie, laury" << std::endl;
+            }
+            else
+            {
+                std::cout << "Twoj zawodnik " << f_gld2.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
+                std::cout << "Zawodnik " << f_gld1.name << " wygrywa walke, zdobywa doswiadczenie, laury" << std::endl;
+            }
+            //zerujemy indeks zawodnika
+            f_gld2.skills[0][0] = 0;
+            //przywracamy zdrowie
+            f_gld1.skills[0][1] = f_gld1.skills[2][1];
+            //dodajemy doswiadczenie- sprawdzamy czy nie bedzie wieksze od mozliwego maximum
+            if (f_gld1.skills[0][8] < global_maximum_of_exp)
+                f_gld1.skills[0][8]++;
+        }
+    }
+    
+
+
+    std::cout << std::endl << "Nacisnij dowolny klawisz aby kontynuowac..." << std::endl;
+    any_key = _getch();
+}
+
+
 
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-odpornosc, 4-sprawnosc, 5-szybkosc, 6-sila, 7-agresja, 8-doswiadczenie 
 void Fight::fight_aggression_stage(Fighter& f_gld1, Fighter& f_gld2)
@@ -243,7 +387,7 @@ void Fight::fight_show_stats(Fighter& f_gld1, Fighter& f_gld2)
     int first_name_lnt = 5 + f_gld1.name.size();
 
     //"Doswiadczenie: " + "[" + "]" = 17 znakow. + bar_lnt = 37 znakow
-    int max_skill_lnt = 17 + global_bar_lnt;
+    int max_skill_lnt = 17 + global_skill_bar_length;
 
     //sprawdzamy czy wiecej znakow (dluzszy) jest imie gladiatora, czy nazwa umiejetnosci + skill_bar
     if (first_name_lnt >= max_skill_lnt)
