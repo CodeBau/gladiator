@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "skill_bar.h"
 #include "avarage_skills.h"
+#include "any_key.h"
 
     Menu::Menu()
     {
@@ -172,15 +173,12 @@
         switch (user_menu_choice)
         {
         case '1':
-            menu2(m_glds);
-break;
-        case '2':
             menu22(m_glds);
             break;
-        case '3':
+        case '2':
             menu23(m_glds);
             break;
-        case '4':
+        case '3':
             menu0(m_glds);
             break;
         default:
@@ -207,7 +205,7 @@ break;
         default:
             std::cout << "Nie ma takiej opcji";
             Sleep(500);
-            menu2(m_glds);
+            menu2_a_1(m_glds);
         }
     }
 
@@ -271,15 +269,24 @@ break;
     void  Menu::menu231(std::vector <Fighter>& m_glds, std::vector<int>& m_turnament_fighters_list)
     {
         int do_you_want_exit = 0;
-
+        int round_number = m_turnament_fighters_list.size()/2;
         //wstepnie 5
-        for (int j=1;j<5;j++)
+        for (int j=1;j<round_number;j++)
         {
+            if (do_you_want_exit == 1)
+            {
+                break;
+            }
+                
             for (int i = 0; i < m_turnament_fighters_list.size(); i = i + 2)
             {
+                if (do_you_want_exit == 1)
+                {
+                    break;
+                }
                 system("cls");
                 std::cout << j <<" "<< i << std::endl;
-                std::cout << "******Turniej - Runda 1******" << std::endl;
+                std::cout << "******Turniej - Runda "<<j<<"******" << std::endl;
                 fght.turnament_start(m_glds, m_turnament_fighters_list);
                 show_menu_option(menu231_opt);
                 choice_menu_option(menu231_opt);
@@ -292,12 +299,11 @@ break;
                     global_show_fight_on_off = 0;
                     break;
                 case '2':
-                    global_show_fight_on_off = 0;
                     fght.fight_aggression_stage(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]]);
                     fght.turnament_fight_end(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]], m_turnament_fighters_list);
                     break;
                 case '3':
-                    do_you_want_exit = 1;
+                    menu0(m_glds);
                     break;
                 default:
                     std::cout << "Nie ma takiej opcji";
@@ -306,17 +312,42 @@ break;
                 }
             }
 
-
-            //trzeba dodac sprawdzenia w raz z any_key
-            for (int i = 0; i < m_turnament_fighters_list.size(); i++)
+            for (int k = 0; k < m_turnament_fighters_list.size(); k++)
             {
-                if (m_glds[m_turnament_fighters_list[i]].skills[0][0] == 0)
+                
+                if (m_glds[m_turnament_fighters_list[k]].skills[0][0] == 0)
                 {
-                    m_turnament_fighters_list.erase(m_turnament_fighters_list.begin() + i);
+                    m_turnament_fighters_list.erase(m_turnament_fighters_list.begin() + k);
+                    k--;
                 }
             }
-
         }
+
+        for (int k = 0; k < m_turnament_fighters_list.size(); k++)
+        {
+            std::cout << "sprawdzamy po turnieju liste" << std::endl;
+            std::cout << m_turnament_fighters_list.size() << std::endl;
+
+            if (m_glds[m_turnament_fighters_list[k]].skills[0][0] == 0)
+            {
+                std::cout << m_glds[m_turnament_fighters_list[k]].name << std::endl;
+            }
+
+            if (m_glds[m_turnament_fighters_list[k]].skills[0][0] == 0)
+            {
+                m_turnament_fighters_list.erase(m_turnament_fighters_list.begin() + k);
+                k--;
+            }
+        }
+
+        system("cls");
+        std::cout << "******Turniej - Zwyciezca ******" << std::endl;
+        fght.turnament_start(m_glds, m_turnament_fighters_list);
+        
+        any_key();
+        menu0(m_glds);
+
+
     }
        
     

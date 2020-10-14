@@ -6,14 +6,12 @@
 #include "skill_bar.h"
 #include "fight_commentary.h"
 #include "avarage_skills.h"
-
+#include "any_key.h"
 
 #include<windows.h>
 #include<ctime>
 #include<iomanip>
 #include<iostream>
-#include <conio.h>
-
 
 Fight::Fight() {}
 
@@ -32,7 +30,6 @@ void Fight::duel_start(std::vector <Fighter>& f_glds)
 
 void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
 {
-    std::string any_key;
     system("cls");
     fight_show_stats(f_gld1, f_gld2);
 
@@ -56,16 +53,15 @@ void Fight::duel_end(Fighter& f_gld1, Fighter& f_gld2)
     if (f_gld2.skills[0][1] <= 0)
     {
         std::cout << f_gld2.name << " umiera." << std::endl;
-        std::cout << "Twoj zawodnik "<<f_gld1.name<<" wygrywa walke, zdobywa doswiadczenie, laury i troche golda (jeszcze nie)" << std::endl;
+        std::cout << "Twoj zawodnik "<<f_gld1.name<<" wygrywa walke, zdobywa doswiadczenie, laury" << std::endl;
         f_gld2.skills[0][0] = 0;
         f_gld1.skills[0][1] = f_gld1.skills[2][1];
         if (f_gld1.skills[0][8] < global_maximum_of_exp)
             f_gld1.skills[0][8]++;
     }
 
-    std::cout<<std::endl  << "Nacisnij dowolny klawisz aby kontynuowac..." << std::endl;
-    any_key = _getch();
-
+    any_key();
+  
     global_1_fighter_to_fight = 0;
     global_2_fighter_to_fight = 0;
 }
@@ -207,68 +203,48 @@ void Fight::turnament_start(std::vector <Fighter>& f_glds, std::vector<int> &f_t
     }
 }
 
-void Fight::turnament_fight_end(Fighter& f_gld1, Fighter& f_gld2, std::vector<int>&f_turnament_fighters_list)
+void Fight::turnament_fight_end(Fighter& f_gld1, Fighter& f_gld2, std::vector<int>& f_turnament_fighters_list)
 {
-    std::string any_key;
-    system("cls");
-    fight_show_stats(f_gld1, f_gld2);
-
-    //ustawienie koloru tekstu konsoli na ciemno szary
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, 8);
-    std::cout << global_former_comment << std::endl;
-    //powrot koloru do jasno szarego
-    SetConsoleTextAttribute(hConsole, 7);
-
-    //sprawdzamy kto wygral
-
-    if (f_turnament_fighters_list.size() == 2)
+    if (global_show_fight_on_off == 1)
     {
-        if (f_gld1.skills[0][1] <= 0)
-        {
-            if (f_gld1.skills[0][0] != 1)
-            {
-                std::cout << f_gld1.name << " umiera." << std::endl;
+        system("cls");
+        fight_show_stats(f_gld1, f_gld2);
 
-                if (f_gld2.skills[0][0] != 1)
-                    std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
-                else
-                    std::cout << "Twoj zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
+        //ustawienie koloru tekstu konsoli na ciemno szary
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(hConsole, 8);
+        std::cout << global_former_comment << std::endl;
+        //powrot koloru do jasno szarego
+        SetConsoleTextAttribute(hConsole, 7);
 
-            }
-            else
-            {
-                std::cout << "Twoj zawodnik " << f_gld1.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
-                std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
-            }
-            //zerujemy indeks zawodnika
-            f_gld1.skills[0][0] = 0;
-            //przywracamy zdrowie
-            f_gld2.skills[0][1] = f_gld2.skills[2][1];
-            //dodajemy doswiadczenie- sprawdzamy czy nie bedzie wieksze od mozliwego maximum
-            if (f_gld2.skills[0][8] < global_maximum_of_exp)
-                f_gld2.skills[0][8]++;
-        }
+        
     }
-    else
-    {
+    
+    //sprawdzamy kto wygral
+    if (f_turnament_fighters_list.size()!=2)
+    { 
         if (f_gld1.skills[0][1] <= 0)
         {
-            if (f_gld1.skills[0][0] != 1)
+            if (global_show_fight_on_off == 1)
             {
-                std::cout << f_gld1.name << " umiera." << std::endl;
+                if (f_gld1.skills[1][0] != 1)
+                {
+                    std::cout << f_gld1.name << " umiera." << std::endl;
 
-                if (f_gld2.skills[0][0] != 1)
-                std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
+                    if (f_gld2.skills[1][0] != 1)
+                        std::cout << "Zawodnik " << f_gld2.name << " wygrywa walke" << std::endl;
+                    else
+                        std::cout << "Twoj zawodnik " << f_gld2.name << " wygrywa walke" << std::endl;
+
+                }
                 else
-                std::cout << "Twoj zawodnik " << f_gld2.name << " wygrywa turniej" << std::endl;
+                {
+                    std::cout << "Twoj zawodnik " << f_gld1.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
+                    std::cout << "Zawodnik " << f_gld2.name << " wygrywa walke" << std::endl;
+                }
+            }
+            
 
-            }
-            else
-            {
-                std::cout << "Twoj zawodnik " << f_gld1.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
-                std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniejy" << std::endl;
-            }
             //zerujemy indeks zawodnika
             f_gld1.skills[0][0] = 0;
             //przywracamy zdrowie
@@ -277,22 +253,28 @@ void Fight::turnament_fight_end(Fighter& f_gld1, Fighter& f_gld2, std::vector<in
             if (f_gld2.skills[0][8] < global_maximum_of_exp)
                 f_gld2.skills[0][8]++;
         }
+
 
         if (f_gld2.skills[0][1] <= 0)
         {
-            if (f_gld2.skills[0][0] != 1)
+            if (global_show_fight_on_off == 1)
             {
-                std::cout << f_gld2.name << " umiera." << std::endl;
-                if (f_gld1.skills[0][0] != 1)
-                std::cout << "Zawodnik " << f_gld1.name << " wygrywa walke, zdobywa doswiadczenie, laury" << std::endl;
-                else 
-                std::cout << "Twoj zawodnik " << f_gld1.name << " wygrywa walke, zdobywa doswiadczenie, laury" << std::endl;
+                if (f_gld2.skills[1][0] != 1)
+                {
+                    std::cout << f_gld2.name << " umiera." << std::endl;
+
+                    if (f_gld1.skills[1][0] != 1)
+                        std::cout << "Zawodnik " << f_gld1.name << " wygrywa walke" << std::endl;
+                    else
+                        std::cout << "Twoj zawodnik " << f_gld1.name << " wygrywa walke" << std::endl;
+                }
+                else
+                {
+                    std::cout << "Twoj zawodnik " << f_gld2.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
+                    std::cout << "Zawodnik " << f_gld1.name << " wygrywa walke" << std::endl;
+                }
             }
-            else
-            {
-                std::cout << "Twoj zawodnik " << f_gld2.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
-                std::cout << "Zawodnik " << f_gld1.name << " wygrywa walke, zdobywa doswiadczenie, laury" << std::endl;
-            }
+            
             //zerujemy indeks zawodnika
             f_gld2.skills[0][0] = 0;
             //przywracamy zdrowie
@@ -302,13 +284,75 @@ void Fight::turnament_fight_end(Fighter& f_gld1, Fighter& f_gld2, std::vector<in
                 f_gld1.skills[0][8]++;
         }
     }
+    else
+    {
+        if (f_gld1.skills[0][1] <= 0)
+        {
+            if (global_show_fight_on_off == 1)
+            {
+                if (f_gld1.skills[1][0] != 1)
+                {
+                    std::cout << f_gld1.name << " umiera." << std::endl;
+
+                    if (f_gld2.skills[1][0] != 1)
+                        std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniej, zdbywa slawe i doswiadczenie" << std::endl;
+                    else
+                        std::cout << "Twoj zawodnik " << f_gld2.name << " wygrywa turniej, zdbywa slawe i doswiadczenie" << std::endl;
+
+                }
+                else
+                {
+                    std::cout << "Twoj zawodnik " << f_gld1.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
+                    std::cout << "Zawodnik " << f_gld2.name << " wygrywa turniej, zdbywa slawe i doswiadczenie" << std::endl;
+                }
+            }
+            
+
+            //zerujemy indeks zawodnika
+            f_gld1.skills[0][0] = 0;
+            //przywracamy zdrowie
+            f_gld2.skills[0][1] = f_gld2.skills[2][1];
+            //dodajemy doswiadczenie- sprawdzamy czy nie bedzie wieksze od mozliwego maximum
+            if (f_gld2.skills[0][8] < global_maximum_of_exp)
+                f_gld2.skills[0][8]++;
+        }
+
+
+        if (f_gld2.skills[0][1] <= 0)
+        {
+            if (global_show_fight_on_off == 1)
+            {
+                if (f_gld2.skills[1][0] != 1)
+                {
+                    std::cout << f_gld2.name << " umiera." << std::endl;
+
+                    if (f_gld1.skills[1][0] != 1)
+                        std::cout << "Zawodnik " << f_gld1.name << " wygrywa turniej, zdbywa slawe i doswiadczenie" << std::endl;
+                    else
+                        std::cout << "Twoj zawodnik " << f_gld1.name << " wygrywa turniej, zdbywa slawe i doswiadczenie" << std::endl;
+                }
+                else
+                {
+                    std::cout << "Twoj zawodnik " << f_gld2.name << " ginie, bedziesz musial poszukac sobie innego, oby lepszego." << std::endl;
+                    std::cout << "Zawodnik " << f_gld1.name << " wygrywa turniej, zdbywa slawe i doswiadczenie" << std::endl;
+                }
+            }
+            
+            //zerujemy indeks zawodnika
+            f_gld2.skills[0][0] = 0;
+            //przywracamy zdrowie
+            f_gld1.skills[0][1] = f_gld1.skills[2][1];
+            //dodajemy doswiadczenie- sprawdzamy czy nie bedzie wieksze od mozliwego maximum
+            if (f_gld1.skills[0][8] < global_maximum_of_exp)
+                f_gld1.skills[0][8]++;
+        }
+    }
+    if (global_show_fight_on_off == 1)
+    {
+        any_key();
+    }
     
-
-
-    std::cout << std::endl << "Nacisnij dowolny klawisz aby kontynuowac..." << std::endl;
-    any_key = _getch();
 }
-
 
 
 //0-id, 1-zdrowie, 2-wytrzymalosc, 3-odpornosc, 4-sprawnosc, 5-szybkosc, 6-sila, 7-agresja, 8-doswiadczenie 
@@ -378,7 +422,9 @@ void Fight::fight_atack_stage(Fighter& f_gld1, Fighter& f_gld2)
     y1 = f_gld2.skills[0][1];
     //std::cout << "Zdrowie " << f_gld2.name << " po strzale : " << y1 << std::endl;
     if (global_show_fight_on_off == 1)
-    fight_commentary(f_gld1, f_gld2, damage, max_damage);
+    { 
+        fight_commentary(f_gld1, f_gld2, damage, max_damage);
+    }
 }
 
 void Fight::fight_show_stats(Fighter& f_gld1, Fighter& f_gld2)

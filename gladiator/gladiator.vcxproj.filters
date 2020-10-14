@@ -48,6 +48,9 @@
     <ClCompile Include="avarage_skills.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="any_key.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="smietnik.txt">
@@ -86,6 +89,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="avarage_skills.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="any_key.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

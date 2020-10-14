@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="any_key.cpp" />
     <ClCompile Include="avarage_skills.cpp" />
     <ClCompile Include="fight_commentary.cpp" />
     <ClCompile Include="Fight.cpp" />
@@ -155,6 +156,7 @@
     <Text Include="smietnik.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="any_key.h" />
     <ClInclude Include="avarage_skills.h" />
     <ClInclude Include="fight_commentary.h" />
     <ClInclude Include="Fight.h" />

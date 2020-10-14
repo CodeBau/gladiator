@@ -49,6 +49,6 @@ void fight_commentary(Fighter& f_gld1, Fighter& f_gld2, float f_hit, float f_max
 		present_comment = present_comment + att_form[wich_form] + " " + att_strength[wich_strenght] + " (" + ss.str() + ") w " + att_aim[wich_aim];
 		std::cout << present_comment << std::endl;
 	}
-	Sleep(100);
+	Sleep(2000);
 	global_former_comment = present_comment;
 };
