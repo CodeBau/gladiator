@@ -287,7 +287,6 @@
                     break;
                 }
                 system("cls");
-                std::cout << j <<" "<< i << std::endl;
                 std::cout << "******Turniej - Runda "<<j<<"******" << std::endl;
                 fght.turnament_start(m_glds, m_turnament_fighters_list);
                 show_menu_option(menu231_opt);
