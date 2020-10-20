@@ -224,10 +224,12 @@
         case '1':
             global_show_fight_on_off = 1;
             fght.duel(m_glds);
+            global_show_fight_on_off = 0;
             break;
         case '2':
             global_show_fight_on_off = 0;
             fght.duel(m_glds);
+            global_show_fight_on_off = 0;
             break;
         case '3':
             global_1_fighter_to_fight = 0;
@@ -265,7 +267,7 @@
         }
     }
 
-    //Menu turnieju - 1 runda
+    //Menu turnieju - rundy
     void  Menu::menu231(std::vector <Fighter>& m_glds, std::vector<int>& m_turnament_fighters_list)
     {
         int do_you_want_exit = 0;
@@ -299,8 +301,10 @@
                     global_show_fight_on_off = 0;
                     break;
                 case '2':
+                    global_show_fight_on_off = 0;
                     fght.fight_aggression_stage(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]]);
                     fght.turnament_fight_end(m_glds[m_turnament_fighters_list[i]], m_glds[m_turnament_fighters_list[i + 1]], m_turnament_fighters_list);
+                    global_show_fight_on_off = 0;
                     break;
                 case '3':
                     menu0(m_glds);
